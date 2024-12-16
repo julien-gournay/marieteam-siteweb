@@ -25,34 +25,22 @@
     <thead>
         <tr>
             <th>
-                <span class="flex items-center">
-                    id Incident
-                </span>
+                <span class="flex items-center">id Incident</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    date Heure Incident
-                </span>
+                <span class="flex items-center">date Heure Incident</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    id Trajet
-                </span>
+                <span class="flex items-center">id Trajet</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    type Incident
-                </span>
+                <span class="flex items-center">type Incident</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    retard Estime
-                </span>
+                <span class="flex items-center">retard Estime</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    raison
-                </span>
+                <span class="flex items-center">raison</span>
             </th>
         </tr>
     </thead>

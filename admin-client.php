@@ -25,24 +25,16 @@
     <thead>
         <tr>
             <th>
-                <span class="flex items-center">
-                    id Client
-                </span>
+                <span class="flex items-center">id Client</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    nom
-                </span>
+                <span class="flex items-center">nom</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    prenom
-                </span>
+                <span class="flex items-center">prenom</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    telephone
-                </span>
+                <span class="flex items-center">telephone</span>
             </th>
         </tr>
     </thead>

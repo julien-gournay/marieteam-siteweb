@@ -25,24 +25,16 @@
     <thead>
         <tr>
             <th>
-                <span class="flex items-center">
-                    id Liaison
-                </span>
+                <span class="flex items-center">id Liaison</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    Ville Depart
-                </span>
+                <span class="flex items-center">Ville Depart</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    Ville Arrivee
-                </span>
+                <span class="flex items-center">Ville Arrivee</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    Duree
-                </span>
+                <span class="flex items-center">Duree</span>
             </th>
         </tr>
     </thead>
