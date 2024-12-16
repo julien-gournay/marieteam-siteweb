@@ -25,19 +25,13 @@
     <thead>
         <tr>
             <th>
-                <span class="flex items-center">
-                    id Bateau
-                </span>
+                <span class="flex items-center">id Bateau</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    nom Bateau
-                </span>
+                <span class="flex items-center">nom Bateau</span>
             </th>
             <th>
-                <span class="flex items-center">
-                    Marque
-                </span>
+                <span class="flex items-center">Marque</span>
             </th>
         </tr>
     </thead>
