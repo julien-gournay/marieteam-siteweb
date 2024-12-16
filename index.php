@@ -17,7 +17,7 @@
             <div class="banner">
                 <img src="img/illustration/bateau3.jpg" alt="">
                 <div class="banner-info">
-                    <h1 class="banner-info-titre">Réserver dès maintenant<br>votre traversée !</h1>
+                    <h1 class="banner-info-titre">Réserver dès maintenant<br>votre traversée!</h1>
                     <?php
                         while ($tab = mysqli_fetch_row($res4)) { // Boucle pour afficher le nombre de destination (requête : res4 [bdd.php])
                             $countDest = $tab[0]; // Variable nb destinations
