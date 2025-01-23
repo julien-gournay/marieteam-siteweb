@@ -168,7 +168,7 @@ section {
     border-top: 2px solid var(--bleuf);
 }
 .cadre-recap-ct{
-    position: fixed;
+    /*position: fixed;*/
     background: var(--bleuc);
     border-radius: 0.625rem;
     display: flex;
@@ -335,4 +335,18 @@ section {
     flex-direction: column;
     width: 100%;
     padding: 1.375rem 2.375rem 1.40625rem 2.3125rem;
+}
+.cadre-list-boxh-txt-dur{
+    display: flex;
+    flex-direction: row;
+}
+
+
+/* STEPS 4 */
+.form-info1{
+    display: flex;
+    gap: 1rem;
+}
+.relative{
+    width: -webkit-fill-available;
 }

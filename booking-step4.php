@@ -15,19 +15,24 @@
         $idVilleDepart = $_SESSION['villeD']; // Variable Ville depart selectionnée
         $idVilleArrivee = $_SESSION['villeA']; // Variable Ville arrivée selectionnée
         $dateDepart = $_SESSION['dateDepart']; // Variable Date depart selectionnée
+        $heureDepart = $_SESSION['heureDepart']; // Variable Date depart selectionnée
+        $dateArrivee = $_SESSION['dateArrivee']; // Variable Date depart selectionnée
+        $heureArrivee = $_SESSION['heureArrivee']; // Variable Date depart selectionnée
+        $idTrajet = $_SESSION['idTrajet']; // V
+        $dureeTrajet = $_SESSION['dureeTrajet'];
         $idPeriode = $_SESSION['periode']; // Variable Date depart selectionnée
-        //$billet = $_SESSION['billet'];
+
 
         if ($mabase) { // Verification que la BDD sois bien connecté
             $res_villeD = mysqli_query($cnt, "SELECT port.ville FROM liaison,port WHERE liaison.idVilleDepart='$idVilleDepart' AND liaison.idvilleDepart=port.idVille GROUP BY port.ville;"); // Requête : affichage nom ville depart selon id
             $res_villeA = mysqli_query($cnt, "SELECT port.ville FROM liaison,port WHERE liaison.idVilleArrivee='$idVilleArrivee' AND liaison.idvilleArrivee=port.idVille GROUP BY port.ville;"); // Requête : affichage nom ville arrivée selon id
-            $res_horaire = mysqli_query($cnt, "SELECT * FROM liaison,trajet WHERE liaison.idvilleDepart='$idVilleDepart' AND liaison.idvilleArrivee='$idVilleArrivee' AND liaison.idLiai=trajet.idLiaison AND trajet.dateDepart='$dateDepart' ORDER BY trajet.heureDepart ASC;"); // Requête : Récupération de tout les trajets selon la liaisons
+            $res_horaire = mysqli_query($cnt, "SELECT * FROM liaison,trajet WHERE liaison.idvilleDepart='$idVilleDepart' AND liaison.idvilleArrivee='$idVilleArrivee' AND liaison.idLiai=trajet.idLiaison AND trajet.dateDepart='$dateDepart';"); // Requête : Récupération de tout les trajets selon la liaisons
         }
     ?>
 
     <!-- ##### SECTION ETAPE 3 : TRAJETS  ##### -->
     <section id="sec-1">
-        <form class="cadre" method="POST" action="php/step3.php"> <!-- Formulaire de l'etape 3 -->
+        <form class="cadre" method="POST" action="php/step4.php"> <!-- Formulaire de l'etape 3 -->
             <!-- +++ CADRES PARTIE DE GAUCHE  +++ -->
             <div class="cadre-ct">
                 <!-- +++ CADRE DES DIVERSE ETAPES  +++ -->
@@ -56,20 +61,20 @@
                                 3
                             </span>
                             <a href="booking-step3.php">Horaire</a>
+                            <svg class="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
+                            </svg>
+                        </li>
+                        <li class="flex items-center text-blue-600 dark:text-blue-500"> <!-- Icon Etape 4 -->
+                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border border-gray-500 rounded-full shrink-0 dark:border-gray-400">
+                                4
+                            </span>
+                            <a href="booking-step4.php">Informations</a>
                             <div class="arrow"> <!-- Fleches animé -->
                                 <span></span>
                                 <span></span>
                                 <span></span>
                             </div>
-                        </li>
-                        <li class="flex items-center"> <!-- Icon Etape 4 -->
-                            <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border border-gray-500 rounded-full shrink-0 dark:border-gray-400">
-                                4
-                            </span>
-                            Informations
-                            <svg class="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
-                            </svg>
                         </li>
                         <li class="flex items-center"> <!-- Icon Etape 5 -->
                             <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border border-gray-500 rounded-full shrink-0 dark:border-gray-400">
@@ -81,24 +86,8 @@
                 </div>
 
                 <?php
-                if (isset($_SESSION['error_message'])) { // Vérifiez si un message d'erreur est défini dans la session
-                    echo("<div id=\"alert-additional-content-2\" class=\"p-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800\" role=\"alert\">
-                        <div class=\"flex items-center\">
-                            <svg class=\"flex-shrink-0 w-4 h-4 me-2\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 20 20\">
-                            <path d=\"M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z\"/>
-                            </svg>
-                            <span class=\"sr-only\">Warning</span>
-                            <h3 class=\"text-lg font-medium\">Problème de billet</h3>
-                        </div>
-                        <div class=\"mt-2 mb-4 text-sm\">
-                            ".$_SESSION['error_message']."
-                        </div>
-                    </div>"); // Message d'erreur (aucun trajet disponible selon les conditions)
-                    unset($_SESSION['error_message']); // Supprimez le message après l'affichage
-                }
-
                 if (mysqli_num_rows($res_horaire) <= 0) { // Si aucun trajets ne sont existant alors ...
-                    echo("<div id=\"alert-additional-content-2\" class=\"p-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800\" role=\"alert\">
+                    echo("<div id=\"alert-additional-content-2\" class=\"p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800\" role=\"alert\">
                     <div class=\"flex items-center\">
                         <svg class=\"flex-shrink-0 w-4 h-4 me-2\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 20 20\">
                         <path d=\"M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z\"/>
@@ -119,72 +108,91 @@
                     </div>
                     </div>"); // Message d'erreur (aucun trajet disponible selon les conditions)
                 }
+                ?>
 
-                if (mysqli_num_rows($res_horaire) > 0) { // Si des trajets sont existant alors ...
-                echo("<div class=\"cadre-ville\">");
-                    echo("<p>Selectionner votre trajet</p>");
-                    echo("<div class=\"cadre-listh\">");
-                        while ($tab = mysqli_fetch_row($res_horaire)) { // Boucle pour afficher chaque trajet
-                            $idLiaison = $tab[0]; // Variable id Liaison
-                            $duree = $tab[3]; // Variable durée trajet
-                            $idtrajet = $tab[4]; // Variable id trajet
-                            $dDepart = $tab[7]; // Variable date départ
-                            $hDepart = $tab[8]; // Variable heure départ
-                            $dArrive = $tab[9]; // Variable date arrivée
-                            $hArrive = $tab[10]; // Variable heure arrivée
+                <div class="cadre-ville">
+                    <p>Renseigner vos informations personnelles</p>
+                    <div class="form-info1">
+                        <div class="relative">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                                <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
+                                <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+                            </svg>
+                            </div>
+                            <input type="text" name="nom" id="email-address-icon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nom">
+                        </div>
+                        
+                        <div class="relative">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                                <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
+                                <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+                            </svg>
+                            </div>
+                            <input type="text" name="prenom" id="email-address-icon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Prénom">
+                        </div>
 
-                            $hDepart = date("H\hi", strtotime($hDepart));  // H:i correspond à l'heure et minutes uniquement
-                            $hArrive = date("H\hi", strtotime($hArrive));  // H:i correspond à l'heure et minutes uniquement
-                            $duree = date("H\hi", strtotime($duree));  // H:i correspond à l'heure et minutes uniquement
+                        <div class="relative">
+                            <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">
+                                    <path d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z"/>
+                                </svg>
+                            </div>
+                            <input type="text" id="phone-input" name="tel"
+                                aria-describedby="helper-text-explanation" 
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                placeholder="Numéro de téléphone" 
+                                required
+                            />
+                        </div>
+                        <script>
+                            document.getElementById('phone-input').addEventListener('input', function (e) {
+                                // Récupère uniquement les chiffres saisis
+                                let rawValue = e.target.value.replace(/\D/g, '');
 
-                            
-                            echo("<div class=\"cadre-list-boxh\">
-                                <input class=\"radio-trajet\" type=\"radio\" name=\"idtrajet\" value=\"$idtrajet\" required>
-                                <div class=\"cadre-list-boxh-heure\">
-                                    <p class=\"cadre-list-boxh-txt-ty\">$hDepart</p>
-                                    <p class=\"cadre-list-boxh-txt-ta\">$hArrive</p>
-                                </div>
-                                <div class=\"cadre-list-boxh-txt\">
-                                    <p>$idLiaison ($idtrajet) ");
-                            
-                            // +++ INCIDENT TRAJET +++
-                            $res_incident = mysqli_query($cnt, "SELECT * FROM incident WHERE incident.idTrajet=$idtrajet;"); // Requête : Recupére la liste d'indicent du trajet de la boucle
-                            if (mysqli_num_rows($res_incident) > 0) { // Vérification si un incident existe
-                                while ($tab = mysqli_fetch_row($res_incident)) { // Boucle récuperation incident
-                                    $typeIncident = $tab[3]; // Variable type d'incident
-                                    $retard = $tab[4]; // Variable durée retard
-                                    $raison = $tab[5]; // Variable raison incident
+                                // Limite le nombre de chiffres à 10
+                                if (rawValue.length > 10) {
+                                    rawValue = rawValue.slice(0, 10);
                                 }
-                                // Conversion de retard au format convivial (durée + unité)
-                                list($hours, $minutes, $seconds) = explode(':', $retard);
-                                if ((int)$hours > 0) {
-                                    $retard_convivial = (int)$hours . " heure" . ((int)$hours > 1 ? "s" : "");
-                                } else {
-                                    $retard_convivial = (int)$minutes . " minute" . ((int)$minutes > 1 ? "s" : "");
-                                }
 
-                                switch($typeIncident){ // Switch selon le type d'incident
-                                    case "Retard": // Pour le type retard
-                                        echo("<span class=\"inline-flex items-center bg-orange-100 text-orange-500 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300\">
-                                        <span class=\"w-2 h-2 me-1 bg-orange-500 rounded-full\">
-                                        </span>Retardé de $retard_convivial</span>"); // Affichage de la durée de retard [! COMPOSANT FLOWBITE]
-                                        break;
-                                    case "Annulé": // Pour le type annulé
-                                        echo("<span class=\"inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300\">
-                                        <span class=\"w-2 h-2 me-1 bg-red-500 rounded-full\">
-                                        </span>Annulé pour $raison</span>"); //Affichage du motif annulation [! COMPOSANT FLOWBITE]
-                                        break;
-                                    case "Méteo": // Pour le type méteo
-                                        echo("<span class=\"inline-flex items-center bg-blue-100 text-blue-500 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300\">
-                                        <span class=\"w-2 h-2 me-1 bg-blue-500 rounded-full\">
-                                        </span>Condition méteo : $raison</span>"); // Affichage des informations méteo [! COMPOSANT FLOWBITE]
-                                        break;
-                                }
-                            } echo("<div class=\"cadre-list-boxh-txt-dur\"><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABM0lEQVR4nN2UTU7DMBCFrSC4QvxecgAUwSqsEHeg4vdKQDlGFe7CBSgUWCKVHYW90UhGRHQSOyarjjSSF5P3Zd6MbcxGR1VVOyQvSTYA5iS/JP25IXkhNUni1tpTki8kXV8CeLbWngzR3gJwGxLmOmhqjMmC6ini/M3rGFv6BA4BHAU6majiMizxs+9j4yPwE6/q4P22uBEAriiKc837u7EAJGca4GksAIC5ZtFqAGAZqF0lAay1B1Kb5/leALIOAPAY4e17WZb7vn4XwFtH3YPWQRN5mZbSQauTj6ghy8MVCXBtCMl7ZU3Pki4a//isiQNY1HW9bbSQV3EAwHWs6LEq3hr29B+AKxMRGYCbxJc0iwH8dDIRPyMsWQRt6QoZljxcsnay2yQ/fcp5JtvSOdCNiW/DpYV/SqBrIQAAAABJRU5ErkJggg==\" alt=\"clock\"></p>$duree</div></div></div>");
-                        }
-                    echo("</div>");
-                echo("</div>");
-            }?>
+                                // Formate la valeur avec des espaces tous les 2 chiffres
+                                let formattedValue = rawValue.replace(/(\d{2})(?=\d)/g, '$1 ');
+
+                                // Affiche le formaté dans le champ d'entrée
+                                e.target.value = formattedValue;
+
+                                // Ajoute la version sans espace comme valeur à soumettre
+                                e.target.dataset.raw = rawValue;
+                            });
+
+                            // Avant l'envoi du formulaire, modifiez la valeur récupérée
+                            document.querySelector('form').addEventListener('submit', function () {
+                                let phoneInput = document.getElementById('phone-input');
+                                // Enlève les espaces pour envoyer uniquement les chiffres
+                                phoneInput.value = phoneInput.value.replace(/\s/g, '');
+                            });
+
+                        </script>
+                    </div>
+
+                    <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                            <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
+                            <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+                        </svg>
+                        </div>
+                        <input type="text" name="email" id="email-address-icon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Adresse mail">
+                    </div>
+
+                </div>
+
+
+                <div class="cadre-ville">
+                    <p>Renseigner vos informations de paiement</p>
+
+                </div>
             </div>
 
             <!-- +++ CADRES PARTIE DE DROITE  +++ -->                    
@@ -213,15 +221,26 @@
                     <div class="cadre-recap-ct-gp">
                         <div class="cadre-recap-ct-gp-txt">
                             <p>Date départ</p>
-                            <p><?php echo("$dateDepart"); // Affichage date départ ?></p>
+                            <p><?php echo("$dateDepart | $heureDepart"); // Affichage date départ ?></p>
                         </div>
                         <div class="cadre-recap-ct-gp-txt">
                             <p>Date arrivé</p>
-                            <p>[A l'étape 3]</p>
+                            <p><?php echo("$dateArrivee | $heureArrivee"); // Affichage date départ ?></p>
+                        </div>
+                    </div>
+                    
+                    <div class="cadre-recap-ct-gp">
+                        <div class="cadre-recap-ct-gp-txt">
+                            <p>Traversé numéro</p>
+                            <p><?php echo("$idTrajet");?></p>
+                        </div>
+                        <div class="cadre-recap-ct-gp-txt">
+                            <p>Durée</p>
+                            <p><?php echo("$dureeTrajet"); // Affichage date départ ?></p>
                         </div>
                     </div>
                     <hr>
-                    
+
                     <!-- +++ DETAIL PRIX  +++ -->
                     <h3>Détail prix</h3>
                     <div class="cadre-recap-ct-gp">
@@ -329,10 +348,16 @@
                         </div>
                     </div>
 
+                    <div class="cadre-recap-ct-bt">
+                        <div class="flex items-center gap-1">
+                            <input id="link-checkbox" type="checkbox" value="true" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required   oninvalid="this.setCustomValidity('Veuillez lire puis accepter les conditions.')" oninput="this.setCustomValidity('')">
+                            <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">En cochant cette case, vous acceptez les <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline">conditions d’achat et de confidentitalité</a>.</label>
+                        </div>
+                    </div>
                     <!-- +++ BOUTONS RECAP  +++ -->
                     <div class="cadre-recap-ct-bt">
-                        <button class="cadre-recap-ct-bt-ann"><a href="booking-step2.php">Précedemment</a></button> <!-- Bouton retour etape -->
-                        <button class="cadre-recap-ct-bt-sui" type="submit">Suivant</button> <!-- Bouton etape suivante -->
+                        <!--<button class="cadre-recap-ct-bt-ann"><a href="booking-step3.php">Précedemment</a></button>--> <!-- Bouton retour etape -->
+                        <button class="cadre-recap-ct-bt-sui" type="submit">Procéder au paiement</button> <!-- Bouton etape suivante -->
                     </div>
                 </div>
             </div>

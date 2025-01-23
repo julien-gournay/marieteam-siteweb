@@ -16,6 +16,7 @@
 
         if($mabase){
             $res_resa = mysqli_query($cnt,"SELECT reservation.reference,reservation.idTrajet,client.nom,client.prenom,client.telephone,client.email,trajet.dateDepart,trajet.heureDepart,trajet.dateArrive,trajet.heureArrive,liaison.duree,port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
+            $res_resa2 = mysqli_query($cnt,"SELECT port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleDepart=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
         }
 
         while ($tab = mysqli_fetch_row($res_resa)) { // Récupération des infos
@@ -35,6 +36,17 @@
             $photo = $tab[13]; // Variable photo destination
             break;
         }
+        while ($tab = mysqli_fetch_row($res_resa2)) { // Récupération des infos
+            $villeDepart = $tab[0]; // Variable référence réservation
+            $paysDepart = $tab[1]; // Variable id Trajet
+            $photoDepart = $tab[2]; // Variable nom client
+            break;
+        }
+
+        $heureDepart = date("H\hi", strtotime($heureDepart));  // H:i correspond à l'heure et minutes uniquement
+        $heureRetour = date("H\hi", strtotime($heureRetour));  // H:i correspond à l'heure et minutes uniquement
+        $duree = date("H\hi", strtotime($duree));  // H:i correspond à l'heure et minutes uniquement
+
     
     ?>
     <section id="sec-1">
@@ -89,7 +101,7 @@
                                 <p class="titre">Départ</p>
                                 <p class="heure"><?php echo("$heureDepart"); ?></p>
                                 <p class="date"><?php echo("$dateDepart"); ?></p>
-                                <p class="ville">Ville, Pays</p>
+                                <p class="ville"><?php echo("$villeDepart, $paysDepart"); ?></p>
                             </div>
                             <div class="cadre-content-recap-voyage-detail-sépa">
                                 <p class="temps"><?php echo("$duree"); ?></p>

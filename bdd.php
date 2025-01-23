@@ -1,9 +1,10 @@
 <?php
+    // Création de la connexion
     $cnt = mysqli_connect('localhost', 'root', ''); // Connexion Serveur BDD (serveur,user,mdp)
-    $mabase = mysqli_select_db($cnt, "marieteam2"); // Choix de la BDD : marieteam (defaut)
+    $mabase = mysqli_select_db($cnt, "marieteam"); // Choix de la BDD : marieteam (defaut)
 
     // REQUETES SQL :
-    if ($mabase) {
+    if ($cnt) {
         $res1 = mysqli_query($cnt, "SELECT * FROM port"); // Requête pour afficher tout les ports
         $res2 = mysqli_query($cnt, "SELECT * FROM port"); // Requête pour afficher tout les ports
         $res3 = mysqli_query($cnt, "SELECT * FROM port"); // Requête pour afficher tout les ports

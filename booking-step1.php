@@ -15,7 +15,7 @@
 
     <!-- ##### SECTION ETAPE 1 : DESTINATION  ##### -->
     <section id="sec-1">
-        <form class="cadre" method="POST" action="step1.php"> <!-- Formulaire de l'etape 1 -->
+        <form class="cadre" method="POST" action="php/step1.php"> <!-- Formulaire de l'etape 1 -->
             <!-- +++ CADRES PARTIE DE GAUCHE  +++ -->
             <div class="cadre-ct">
                 <!-- +++ CADRE DES DIVERSE ETAPES  +++ -->
@@ -25,7 +25,7 @@
                             <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border border-blue-600 rounded-full shrink-0 dark:border-blue-500">
                                 1
                             </span>
-                            Destination
+                            <a href="booking-step1.php">Destination</a>
                             <div class="arrow"> <!-- Fleches animé -->
                                 <span></span>
                                 <span></span>

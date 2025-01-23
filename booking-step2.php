@@ -15,6 +15,8 @@
         $idVilleDepart = $_SESSION['villeD']; // Variable Ville depart selectionnée
         $idVilleArrivee = $_SESSION['villeA']; // Variable Ville arrivée selectionnée
         $dateDepart = $_SESSION['dateDepart']; // Variable Date depart selectionnée
+        $idPeriode = $_SESSION['periode']; // Variable Date depart selectionnée
+
 
         // ### OPTION 2 : RECUPERATION PARAMETRES VIA URL ### 
         // if((isset($_GET["villed"]))OR(isset($_GET["villea"]))){
@@ -27,13 +29,13 @@
             //$res_villeD = mysqli_query($cnt, "SELECT port.ville FROM liaison,port WHERE liaison.idVilleDepart='$idvilled' AND liaison.idvilleDepart=port.idVille GROUP BY port.ville;"); // Requête : affichage nom ville depart selon id (option 2)
             $res_villeA = mysqli_query($cnt, "SELECT port.ville FROM liaison,port WHERE liaison.idVilleArrivee='$idVilleArrivee' AND liaison.idvilleArrivee=port.idVille GROUP BY port.ville;"); // Requête : affichage nom ville arrivée selon id
             //$res_villeA = mysqli_query($cnt, "SELECT port.ville FROM liaison,port WHERE liaison.idVilleArrivee='$idvillea' AND liaison.idvilleArrivee=port.idVille GROUP BY port.ville;"); // Requête : affichage nom ville arrivée selon id (option 2)
-            $res_tarif = mysqli_query($cnt, "SELECT tarif.idType,type.libelleType,tarif.tarif FROM tarif,type WHERE tarif.idLiaison='$idVilleDepart-$idVilleArrivee' AND tarif.idType=type.idType;"); // Requête : récuperation des tarifs selon la liaison
+            $res_tarif = mysqli_query($cnt, "SELECT tarif.idType,type.libelleType,tarif.tarif FROM tarif,type WHERE tarif.idLiaison='$idVilleDepart-$idVilleArrivee' AND tarif.idType=type.idType AND tarif.idPeriode=$idPeriode;"); // Requête : récuperation des tarifs selon la liaison
         }
     ?>
 
     <!-- ##### SECTION ETAPE 2 : BILLETS  ##### -->
     <section id="sec-1">
-        <form class="cadre" method="POST" action="step2.php"> <!-- Formulaire de l'etape 2 -->
+        <form class="cadre" method="POST" action="php/step2.php"> <!-- Formulaire de l'etape 2 -->
             <!-- +++ CADRES PARTIE DE GAUCHE  +++ -->
             <div class="cadre-ct">
                 <!-- +++ CADRE DES DIVERSE ETAPES +++ -->
@@ -43,7 +45,7 @@
                             <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border border-blue-600 rounded-full shrink-0 dark:border-blue-500">
                                 1
                             </span>
-                            Destination
+                            <a href="booking-step1.php">Destination</a>
                             <svg class="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
                             </svg>
@@ -52,7 +54,7 @@
                             <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border border-blue-600 rounded-full shrink-0 dark:border-blue-500">
                                 2
                             </span>
-                            Billets
+                            <a href="booking-step2.php">Billets</a>
                             <div class="arrow"> <!-- Fleches animé -->
                                 <span></span>
                                 <span></span>
@@ -86,6 +88,23 @@
                     </ol>
                 </div>
 
+                <?php
+                    if (isset($_SESSION['error_message'])) { // Vérifiez si un message d'erreur est défini dans la session
+                        echo("<div id=\"alert-additional-content-2\" class=\"p-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800\" role=\"alert\">
+                            <div class=\"flex items-center\">
+                                <svg class=\"flex-shrink-0 w-4 h-4 me-2\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 20 20\">
+                                <path d=\"M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z\"/>
+                                </svg>
+                                <span class=\"sr-only\">Warning</span>
+                                <h3 class=\"text-lg font-medium\">Problème de billet</h3>
+                            </div>
+                            <div class=\"mt-2 mb-4 text-sm\">
+                                ".$_SESSION['error_message']."
+                            </div>
+                        </div>"); // Message d'erreur (aucun trajet disponible selon les conditions)
+                        unset($_SESSION['error_message']); // Supprimez le message après l'affichage
+                    }
+                ?>
                 <!-- +++ SELECTION BILLETS  +++ -->
                 <div class="cadre-ville">
                     <p>Selectionner vos billets</p>
@@ -167,7 +186,7 @@
 
                     <!-- +++ BOUTONS RECAP  +++ -->
                     <div class="cadre-recap-ct-bt">
-                        <button class="cadre-recap-ct-bt-ann"><a href="booking-step1.php">Précedement</a></button> <!-- Bouton retour etape -->
+                        <button class="cadre-recap-ct-bt-ann"><a href="booking-step1.php">Précedemment</a></button> <!-- Bouton retour etape -->
                         <button class="cadre-recap-ct-bt-sui" type="submit">Suivant</button> <!-- Bouton etape suivante -->
                     </div>
                 </div>

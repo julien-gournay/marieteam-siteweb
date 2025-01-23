@@ -6,7 +6,18 @@
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <?php include "bdd.php"; // Fichier de connexion BDD ?>
+    <?php 
+        include "bdd.php"; // Fichier de connexion BDD
+        session_start();  // Ouverture d'une session pour stocker les données
+
+        if (isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == true) {
+            header('Location: admin-login.php');
+        } else{
+            if (isset($_SESSION['usernom'])) {
+                $usernom = $_SESSION['usernom'];
+            }
+        }
+    ?>
    
     <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
     <span class="sr-only">Open sidebar</span>
@@ -20,7 +31,7 @@
     </aside>
 
     <div class="p-4 sm:ml-64">        
-        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Bienvenue <span class="text-blue-600 dark:text-blue-500">Julien Gournay</span> sur l'espace administrateur.</h1>
+        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Bienvenue <span class="text-blue-600 dark:text-blue-500"><?php echo("$usernom"); ?></span> sur l'espace administrateur.</h1>
         <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>

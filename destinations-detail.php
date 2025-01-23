@@ -59,9 +59,14 @@
     ?>
   </section>
 
+  
+
+  </section>
+
   <!-- ##### SECTION TARIFS DEPART  ##### -->
-  <section id="sec-2"> 
-    <div id="accordion-open" data-accordion="open">
+  <section id="sec-3" class="flex flex-col">
+    <div class='sec-2_info_title'>Nos tarifs divers</div>
+    <div id="accordion-collapse" data-accordion="collapse" data-active-classes="bg-blue-100 dark:bg-gray-800 text-white dark:text-white" data-inactive-classes="bg-gray-300 dark:bg-gray-800 text-black-600 dark:text-white" class="flex flex-col gap-2">
       <?php
         $n=1; // iniatialisation n
         $res_depart = mysqli_query($cnt, "SELECT liaison.idvilleDepart, port.ville FROM port,liaison WHERE port.idVille=liaison.idvilleDepart AND liaison.idvilleArrivee='$id';"); // Requête : Récuperation des départs possible selon le port d'arrivée
@@ -69,26 +74,141 @@
           $idDepart = $tab[0]; // Variable id port départ
           $villeDepart = $tab[1]; // Variable nom ville départ
 
-          echo("<h2 id=\"accordion-open-heading-$n\">
-            <button type=\"button\" class=\"flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3\" data-accordion-target=\"#accordion-open-body-1\" aria-expanded=\"true\" aria-controls=\"accordion-open-body-$n\">
-              <span class=\"flex items-center\">$villeDepart</span>
-              <svg data-accordion-icon class=\"w-3 h-3 rotate-180 shrink-0\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 10 6\">
-                <path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 5 5 1 1 5\"/>
-              </svg>
-            </button>
-          </h2>
-          
-          <div id=\"accordion-open-body-$n\" class=\"hidden\" aria-labelledby=\"accordion-open-heading-$n\">
-              <div class=\"p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900\">"); // Affichage liste accordéon ville
 
-          $res_departT = mysqli_query($cnt, "SELECT type.libelleType,tarif.tarif FROM tarif,liaison,type WHERE tarif.idLiaison=liaison.idLiai AND liaison.idvilleDepart='$idDepart' AND tarif.idType=type.idType;"); // Requête : Liste tarifs selon le port de depart
-          while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
-            $libelleT = $tab[0]; // Variable type tari
-            $tarif = $tab[1]; // Variable prix tarif
-            echo("<p class=\"mb-2 text-gray-500 dark:text-gray-400\">$libelleT : $tarif €</p>"); // Affichage Type + Prix du billet
-          }
-          echo("</div>
-            </div>");
+          echo(" 
+            <h2 id=\"accordion-collapse-heading-$n\">
+              <button type=\"button\" class=\"flex items-center justify-between w-full p-5 font-medium rtl:text-right text-black border-b border-black dark:border-black gap-3 bg-blue-500 rtl:text-black\" data-accordion-target=\"#accordion-collapse-body-$n\" aria-expanded=\"true\" aria-controls=\"accordion-collapse-body-$n\">
+                <span>$villeDepart</span>
+                <svg data-accordion-icon class=\"w-3 h-3 rotate-180 shrink-0\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 10 6\">
+                  <path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 5 5 1 1 5\"/>
+                </svg>
+              </button>
+            </h2>
+          ");
+              $res_departT = mysqli_query($cnt, "SELECT type.libelleType,tarif.tarif FROM tarif,liaison,type WHERE tarif.idLiaison=liaison.idLiai AND liaison.idvilleDepart='$idDepart' AND tarif.idType=type.idType;"); // Requête : Liste tarifs selon le port de depart
+              while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
+                $libelleT = $tab[0]; // Variable type tari
+                $tarif = $tab[1]; // Variable prix tarif
+              }
+              echo("
+              <div id=\"accordion-collapse-body-$n\" class=\"hidden\" aria-labelledby=\"accordion-collapse-heading-$n\">
+                <div id='sec-2'> 
+                  <div class='sec-2_info'>
+                    <div class='sec-2_info_desc'>Depart $villeDepart, à partir de</div>
+                  </div>
+
+                  <div class='sec-2_box1'>
+                    <div class='sec-2_box1_head'>
+                      <div class='sec-2_box1_head_title'>A PIED</div>
+                    </div>
+                    
+                    <div class='sec-2_box1_body'>");
+                        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,tarif.tarif FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie='A'"); // Requête : Liste tarifs selon le port de depart
+                        if (mysqli_num_rows($res_departT) > 0) {
+                          while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
+                            $libelleT = $tab[0]; // Variable type tari
+                            $tarif = $tab[1]; // Variable prix tarif
+  
+                            echo("
+                            <div class='sec-2_box1_body_info1'>
+                              <div class=\"sec-2_box1_body_info1_cnt\">
+                                <div class=\"sec-2_box1_body_info1_age\"><br>$libelleT</div>
+                                <div class=\"sec-2_box1_body_info1_prix\">$tarif</div>
+                              </div>
+                            </div>
+                            <div class=\"sec-2_box1_barre\"></div>");
+                          };
+                        } else{
+                          echo("
+                          <div class='sec-2_box1_body_info1'>
+                              <p>Aucun billet n'est disponible pour ce départ.</p>
+                          </div>");
+                        }
+                      echo("
+                    </div>
+                  </div>
+
+                  <div class='sec-2_box2'>
+                    <div class='sec-2_box2_head'>
+                      <div class='sec-2_box2_head_title'>VEHICULE</div>
+                    </div>
+                    
+                    <div class='sec-2_box2_body'>");
+                        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,tarif.tarif FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie !='A'"); // Requête : Liste tarifs selon le port de depart
+                        if (mysqli_num_rows($res_departT) > 0) {
+                          while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
+                            $libelleT = $tab[0]; // Variable type tari
+                            $tarif = $tab[1]; // Variable prix tarif
+  
+                            echo("
+                            <div class='sec-2_box2_body_info1'>
+                              <div class='sec-2_box2_body_info1_cnt'>
+                                <div class='sec-2_box2_body_info1_vehicule'>$libelleT</div>
+                                <div class='sec-2_box2_body_info1_prix'>$tarif</div>
+                              </div>
+                            </div>
+                            <div class=\"sec-2_box2_barre\"></div>");
+                          };
+                        } else{
+                          echo("
+                          <div class='sec-2_box2_body_info1'>
+                              <p>Aucun billet n'est disponible pour ce départ.</p>
+                          </div>");
+                        }
+                      echo("
+                    </div>
+                  </div>
+
+                  <div class='sec-2_box2'>
+                    <div class='sec-2_box2_head'>
+                      <div class='sec-2_box2_head_title'>VEHICULE</div>
+                    </div>
+                    <div class='sec-2_box2_body'>
+
+                      <div class='sec-2_box2_body_info1'>
+                        <div class='sec-2_box2_body_info1_cnt'>
+                          <div class='sec-2_box2_body_info1_vehicule'>Voiture</div>
+                          <div class='sec-2_box2_body_info1_prix'>95.00 €</div>
+                        </div>
+                      </div>
+
+                      <div class='sec-2_box2_barre'></div>
+
+                      <div class='sec-2_box2_body_info2'>
+                        <div class='sec-2_box2_body_info2_cnt'>
+                          <div class='sec-2_box2_body_info1_vehicule'>Camping Car</div>
+                          <div class='sec-2_box2_body_info1_prix'>142.00 €</div>
+                        </div>
+                      </div>
+
+                      <div class='sec-2_box2_barre'></div>
+                      <div class='sec-2_box2_body_info3'>
+                      <div class='sec-2_box2_body_info3_cnt'>
+                          <div class='sec-2_box2_body_info1_vehicule'>Fourgon</div>
+                          <div class='sec-2_box2_body_info1_prix'>208.00 €</div>
+                        </div>
+                      </div>
+                      <div class='sec-2_box2_barre'></div>
+                      <div class='sec-2_box2_body_info3'>
+                      <div class='sec-2_box2_body_info3_cnt'>
+                          <div class='sec-2_box2_body_info1_vehicule'>Bus</div>
+                          <div class='sec-2_box2_body_info1_prix'>226.00 €</div>
+                        </div>
+                      </div>
+                      <div class='sec-2_box2_barre'></div>
+                      <div class='sec-2_box2_body_info3'>
+                      <div class='sec-2_box2_body_info3_cnt'>
+                          <div class='sec-2_box2_body_info1_vehicule'>Camion</div>
+                          <div class='sec-2_box2_body_info1_prix'>295.00 €</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          "); // Affichage liste accordéon ville
+          //<div id=\"accordion-open-body-$n\" class=\"hidden\" aria-labelledby=\"accordion-open-heading-$n\">
+          //    <div class=\"p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900\">"
           $n++;
         }
       ?>

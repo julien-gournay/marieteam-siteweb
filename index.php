@@ -32,10 +32,10 @@
             </div>
             <!-- +++ BARRE DE RESERVATION +++ -->
             <div class="searchbar">
-                <form class="searchbar-form">
+                <form class="searchbar-form" method="POST" action="php/step1.php">
                     <div class="searchbar-composent">
                         <label for="">Port de départ</label>
-                        <select id="villeDepart" onchange="updateVilleArrivee()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <select id="villeDepart" name="villeD" onchange="updateVilleArrivee()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected>Selectionner un port</option>
                             <?php
                                 while ($tab = mysqli_fetch_row($res1)) { // Boucle pour afficher les ports dispo (requête : res1 [bdd.php])
@@ -49,7 +49,7 @@
                     </div>
                     <div class="searchbar-composent">
                         <label for="">Port d'arrivée</label>
-                        <select id="VilleArrivee" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <select id="VilleArrivee" name="villeA" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected>Selectionner un port</option>
                             <?php
                                 while ($tab = mysqli_fetch_row($res2)) { // Boucle pour afficher les ports dispo (requête : res2 [bdd.php])
@@ -63,13 +63,18 @@
                     </div>
                     <div class="searchbar-composent">
                         <label for="">Date de traversé</label>
-                        <div class="relative max-w-sm">
+                        <div class="relative max-w-sm"> <!-- [ ! COMPOSANT FLOWBITE : CHOIX DATE]  +++ -->
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                                 </svg>
                             </div>
-                            <input id="datepicker-autohide" datepicker datepicker-autohide datepicker-buttons datepicker-autoselect-today datepicker-format="dd/mm/yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Selectionner une date">
+                            <input name="dateDepart" id="datepicker-actions" datepicker datepicker-min-date="2024-12-01" datepicker-buttons datepicker-autoselect-today datepicker-format="yyyy-mm-dd" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Selectionner une date" required> <!-- Input pour indiquer la date -->
+                            <script> // Permet de mettre la date minimum du input à aujourd'hui
+                                const today = new Date(); // Variable date du jour
+                                const minDate = today.toISOString().split('T')[0]; // Extraire uniquement la partie date
+                                document.getElementById('datepicker-format').setAttribute('datepicker-min-date', minDate); // Met la date du jour sur l'attribut datapicker-min-date
+                            </script>
                         </div>
                     </div>
                     <div class="searchbar-composent">

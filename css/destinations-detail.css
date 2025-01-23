@@ -12,12 +12,20 @@ section {
   align-items: center;
 }
 #sec-2 {
+  width: 90vw;
+  padding: 4.75rem 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+#sec-3 {
   background-color: var(--blanc);
-  color: var(--noir);
+  color: var(--white);
   justify-content: center;
   align-items: center;
 }
 
+/* ==== sec-1 ==== */
 .sec1-content {
   display: flex;
   flex-direction: column;
@@ -35,7 +43,7 @@ section {
   background-color: var(--bleuc);
 }
 
-/* === CADRE LOGIN === */
+/* === DEBUT SEC1 === */
 .cadre-img {
   width: 100%;
   height: 100%;
@@ -124,3 +132,315 @@ section {
   width: 100%;
   padding: 1rem 1.3rem;
 }
+/* === FIN sec-1 === */
+
+/* === DEBUT sec-2 === */
+.sec-2_info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.sec-2_info_title {
+  color: #3A2AFA;
+  font-family: "Product Sans", sans-serif;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.sec-2_info_desc {
+  color: #000;
+  font-family: "Product Sans", sans-serif;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+/* === DEBUT BOX1 === */
+.sec-2_box1 {
+  width: 100%;
+  height: 100%;
+}
+.sec-2_box1_head {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px 12px 0px 0px;
+  border: 1px solid var(--Bleu-fonc, #3A2AFA);
+  background: var(--Bleu-fonc, #3A2AFA);
+}
+.sec-2_box1_head_title {
+  width: 100%;
+  padding: 1.5%;
+  color: #EEE;
+  text-align: center;
+  font-family: "Product Sans" sans-serif;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.sec-2_box1_body {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 0px 0px 12px 12px;
+  border: 6px solid var(--Bleu-fonc, #3A2AFA);
+}
+.sec-2_box1_barre {
+  background: #3A2AFA;
+  width: 10px;
+  height: 130px;
+}
+/* ==INFO1== */
+.sec-2_box1_body_info1 {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.sec-2_box1_body_info1_cnt {
+  margin: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+  height: 100%;
+}
+.sec-2_box1_body_info1_age {
+  color: #000;
+  text-align: center;
+  font-family: "Product Sans", sans-serif;
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
+}
+.sec-2_box1_body_info1_prix {
+  color: #000;
+  text-align: center;
+  font-family: "Product Sans", sans-serif;
+  font-size: 33px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+/* ==INFO2== */
+.sec-2_box1_body_info2 {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.sec-2_box1_body_info2_cnt {
+  margin: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+.sec-2_box1_body_info2_age {
+  color: #000;
+  text-align: center;
+  font-family: "Product Sans", sans-serif;
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
+}
+.sec-2_box1_body_info2_prix {
+  color: #000;
+  text-align: center;
+  font-family: "Product Sans", sans-serif;
+  font-size: 33px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+/* ==INFO3== */
+.sec-2_box1_body_info3 {
+  display: flex;
+  width: 1289px;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.sec-2_box1_body_info3_cnt {
+  margin: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+.sec-2_box1_body_info3_age {
+  color: #000;
+  text-align: center;
+  font-family: "Product Sans", sans-serif;
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
+}
+.sec-2_box1_body_info3_prix {
+  color: #000;
+  text-align: center;
+  font-family: "Product Sans", sans-serif;
+  font-size: 33px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+/* === FIN BOX1 === */
+/* === DEBUT BOX2 === */
+.sec-2_box2 {
+  width: 100%;
+  height: 100%;
+}
+.sec-2_box2_head {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px 12px 0px 0px;
+  border: 1px solid var(--Bleu-fonc, #3A2AFA);
+  background: var(--Bleu-fonc, #3A2AFA);
+}
+.sec-2_box2_head_title {
+  width: 100%;
+  padding: 1.5%;
+  color: #EEE;
+  text-align: center;
+  font-family: "Product Sans" sans-serif;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.sec-2_box2_body {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 0px 0px 12px 12px;
+  border: 6px solid var(--Bleu-fonc, #3A2AFA);
+}
+.sec-2_box2_barre {
+  background: #3A2AFA;
+  width: 10px;
+  height: 130px;
+}
+/* ==INFO1== */
+.sec-2_box2_body_info1 {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.sec-2_box2_body_info1_cnt {
+  margin: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+  height: 100%;
+}
+.sec-2_box2_body_info1_vehicule {
+  color: #000;
+  text-align: center;
+  font-family: "Product Sans", sans-serif;
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
+}
+.sec-2_box2_body_info1_prix {
+  color: #000;
+  text-align: center;
+  font-family: "Product Sans", sans-serif;
+  font-size: 33px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+/* ==INFO2== */
+.sec-2_box2_body_info2 {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.sec-2_box2_body_info2_cnt {
+  margin: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+.sec-2_box2_body_info2_vehicule {
+  color: #000;
+  text-align: center;
+  font-family: "Product Sans", sans-serif;
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
+}
+.sec-2_box2_body_info2_prix {
+  color: #000;
+  text-align: center;
+  font-family: "Product Sans", sans-serif;
+  font-size: 33px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+/* ==INFO3== */
+.sec-2_box2_body_info3 {
+  display: flex;
+  width: 1289px;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.sec-2_box2_body_info3_cnt {
+  margin: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+.sec-2_box2_body_info3_vehicule {
+  color: #000;
+  text-align: center;
+  font-family: "Product Sans", sans-serif;
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
+}
+.sec-2_box2_body_info3_prix {
+  color: #000;
+  text-align: center;
+  font-family: "Product Sans", sans-serif;
+  font-size: 33px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+/* === FIN BOX2 === */
