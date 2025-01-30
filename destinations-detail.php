@@ -85,7 +85,7 @@
               </button>
             </h2>
           ");
-              $res_departT = mysqli_query($cnt, "SELECT type.libelleType,tarif.tarif FROM tarif,liaison,type WHERE tarif.idLiaison=liaison.idLiai AND liaison.idvilleDepart='$idDepart' AND tarif.idType=type.idType;"); // Requête : Liste tarifs selon le port de depart
+              $res_departT = mysqli_query($cnt, "SELECT type.libelleType,tarif.tarif FROM tarif,liaison,type WHERE tarif.idLiaison=liaison.idLiai AND liaison.idvilleDepart='$idDepart' AND tarif.idType=type.idType"); // Requête : Liste tarifs selon le port de depart
               while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
                 $libelleT = $tab[0]; // Variable type tari
                 $tarif = $tab[1]; // Variable prix tarif
@@ -103,7 +103,7 @@
                     </div>
                     
                     <div class='sec-2_box1_body'>");
-                        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,tarif.tarif FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie='A'"); // Requête : Liste tarifs selon le port de depart
+                        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,MIN(tarif.tarif) FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie='A' GROUP BY tarif.idType;"); // Requête : Liste tarifs selon le port de depart
                         if (mysqli_num_rows($res_departT) > 0) {
                           while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
                             $libelleT = $tab[0]; // Variable type tari
@@ -113,7 +113,7 @@
                             <div class='sec-2_box1_body_info1'>
                               <div class=\"sec-2_box1_body_info1_cnt\">
                                 <div class=\"sec-2_box1_body_info1_age\"><br>$libelleT</div>
-                                <div class=\"sec-2_box1_body_info1_prix\">$tarif</div>
+                                <div class=\"sec-2_box1_body_info1_prix\">$tarif €</div>
                               </div>
                             </div>
                             <div class=\"sec-2_box1_barre\"></div>");
@@ -134,7 +134,7 @@
                     </div>
                     
                     <div class='sec-2_box2_body'>");
-                        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,tarif.tarif FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie !='A'"); // Requête : Liste tarifs selon le port de depart
+                        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,MIN(tarif.tarif) FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie!='A' GROUP BY tarif.idType;"); // Requête : Liste tarifs selon le port de depart
                         if (mysqli_num_rows($res_departT) > 0) {
                           while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
                             $libelleT = $tab[0]; // Variable type tari
@@ -144,7 +144,7 @@
                             <div class='sec-2_box2_body_info1'>
                               <div class='sec-2_box2_body_info1_cnt'>
                                 <div class='sec-2_box2_body_info1_vehicule'>$libelleT</div>
-                                <div class='sec-2_box2_body_info1_prix'>$tarif</div>
+                                <div class='sec-2_box2_body_info1_prix'>$tarif €</div>
                               </div>
                             </div>
                             <div class=\"sec-2_box2_barre\"></div>");
@@ -156,52 +156,6 @@
                           </div>");
                         }
                       echo("
-                    </div>
-                  </div>
-
-                  <div class='sec-2_box2'>
-                    <div class='sec-2_box2_head'>
-                      <div class='sec-2_box2_head_title'>VEHICULE</div>
-                    </div>
-                    <div class='sec-2_box2_body'>
-
-                      <div class='sec-2_box2_body_info1'>
-                        <div class='sec-2_box2_body_info1_cnt'>
-                          <div class='sec-2_box2_body_info1_vehicule'>Voiture</div>
-                          <div class='sec-2_box2_body_info1_prix'>95.00 €</div>
-                        </div>
-                      </div>
-
-                      <div class='sec-2_box2_barre'></div>
-
-                      <div class='sec-2_box2_body_info2'>
-                        <div class='sec-2_box2_body_info2_cnt'>
-                          <div class='sec-2_box2_body_info1_vehicule'>Camping Car</div>
-                          <div class='sec-2_box2_body_info1_prix'>142.00 €</div>
-                        </div>
-                      </div>
-
-                      <div class='sec-2_box2_barre'></div>
-                      <div class='sec-2_box2_body_info3'>
-                      <div class='sec-2_box2_body_info3_cnt'>
-                          <div class='sec-2_box2_body_info1_vehicule'>Fourgon</div>
-                          <div class='sec-2_box2_body_info1_prix'>208.00 €</div>
-                        </div>
-                      </div>
-                      <div class='sec-2_box2_barre'></div>
-                      <div class='sec-2_box2_body_info3'>
-                      <div class='sec-2_box2_body_info3_cnt'>
-                          <div class='sec-2_box2_body_info1_vehicule'>Bus</div>
-                          <div class='sec-2_box2_body_info1_prix'>226.00 €</div>
-                        </div>
-                      </div>
-                      <div class='sec-2_box2_barre'></div>
-                      <div class='sec-2_box2_body_info3'>
-                      <div class='sec-2_box2_body_info3_cnt'>
-                          <div class='sec-2_box2_body_info1_vehicule'>Camion</div>
-                          <div class='sec-2_box2_body_info1_prix'>295.00 €</div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>

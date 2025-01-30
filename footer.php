@@ -18,7 +18,7 @@
                 <div class="footer-content-lien-list">
                     <p>Marie Team</p>
                     <ul>
-                        <li><a href="">> Politique de confidentialité</a></li>
+                        <li><a href="privacy.php">> Politique de confidentialité</a></li>
                         <li><a href="">> Crédit</a></li>
                         <li><a href="admin-login.php">> Dashboard admin</a></li>
                     </ul>

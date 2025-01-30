@@ -1,0 +1,50 @@
+/* ----- Configuration sections page ----- */
+section {
+    width: 100%;
+    display: flex;
+  }
+  #sec-1 {
+    background-color: var(--blanc);
+    background-size: cover;
+    color: var(--noir);
+    justify-content: center;
+    align-items: center;
+    min-height: 40vh;
+  }
+  #sec-2 {
+    background-color: var(--blanc);
+    background-size: cover;
+    justify-content: center;
+    color: var(--noir);
+    height: 100%;
+  }
+   
+  .cadre {
+    width: 90vw;
+    height: 20vh;
+    overflow: hidden;
+    display: flex;
+    border-radius: 1.5625rem;
+    top: 1.2rem;
+    position: relative;
+    background-color: var(--bleuc);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cadre2 {
+    width: 90vw;
+    height: 20vh;
+    overflow: hidden;
+    display: flex;
+    top: 1.2rem;
+  }
+
+
+  .cadre h1{
+    color: var(--bleuf);
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: xx-large;
+  }
+  

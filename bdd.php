@@ -1,7 +1,12 @@
 <?php
     // Création de la connexion
-    $cnt = mysqli_connect('localhost', 'root', ''); // Connexion Serveur BDD (serveur,user,mdp)
-    $mabase = mysqli_select_db($cnt, "marieteam"); // Choix de la BDD : marieteam (defaut)
+    $server = "localhost"; 
+    $database = "marieteam";
+    $user = "root"; // ! USER PHPmyAdmin 
+    $password = ""; // ! MOT DE PASSE PHPmyAdmin 
+
+    $cnt = mysqli_connect($server, $user, $password); // Connexion Serveur BDD (serveur,user,mdp)
+    $mabase = mysqli_select_db($cnt, $database); // Choix de la BDD : marieteam (defaut)
 
     // REQUETES SQL :
     if ($cnt) {
@@ -11,6 +16,7 @@
         $res4 = mysqli_query($cnt, "SELECT COUNT(port.ville) FROM port;"); // Requête pour compter le nombre de ports
     }
 
+    // TEST FUNCTION
     /*function rechercheH($villed,$villea,$dated){
         $cnt = mysqli_connect('localhost', 'root', '');
         $mabase = mysqli_select_db($cnt, "marieteam");

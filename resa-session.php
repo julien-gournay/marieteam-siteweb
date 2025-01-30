@@ -1,6 +1,8 @@
 <?php
+    // ? Cette page permet de voir les informations lié à une réservation en cours
     session_start();
     var_dump($_SESSION);
+
     // Fonction pour supprimer la session
     if (isset($_POST['supprimer_session'])) {
         session_unset();
@@ -10,7 +12,7 @@
     }
 ?>
 
-<!-- Formulaire pour supprimer la session -->
+<!-- Formulaire pour supprimer la session/réservation -->
 <form action="" method="post">
     <input type="submit" name="supprimer_session" value="Supprimer la session">
     <button type="button"><a href="booking-step1.php">Nouvelle Réservation</a></button>

@@ -103,7 +103,7 @@
                         while ($tab = mysqli_fetch_row($res_count)){ // Boucle nb ville depart pour la destination
                             $countDepart = $tab[0]; // Variable nb depart
 
-                            $res_prixmin = mysqli_query($cnt, "SELECT MIN(tarif.tarif),liaison.idvilleArrivee,port.ville FROM tarif,liaison,port WHERE tarif.idLiaison=liaison.idLiai AND liaison.idvilleArrivee='$id';"); // Requête : Prix minimum pour la destination
+                            $res_prixmin = mysqli_query($cnt, "SELECT MIN(tarif.tarif),liaison.idvilleArrivee,port.ville FROM tarif,liaison,port WHERE tarif.idLiaison=liaison.idLiai AND liaison.idvilleArrivee='$id' AND tarif.idType<>'B1'"); // Requête : Prix minimum pour la destination
                             while ($tab = mysqli_fetch_row($res_prixmin)){ // Boucle 
                                 $prixMin = $tab[0]; // Variable prix minimum
 
