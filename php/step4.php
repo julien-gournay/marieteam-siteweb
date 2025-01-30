@@ -1,5 +1,6 @@
 <?php
     include "../bdd.php"; // Connexion BDD
+    include "mail.php";
     session_start(); // Ouverture d'une session pour stocker les données
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $nomClient = $_POST['nom'];
@@ -111,6 +112,7 @@
             session_start(); // Ouverture d'une session pour stocker les données
             $_SESSION['idReservation'] = $idReservation;
             echo "<span style='color: green; '><b>✅ Transaction validée avec succés</b></span><br>";
+            confirmationMail($idReservation,$emailClient,$prenomClient);
             header('Location: ../booking-confirm.php'); // Redirection
         } catch (Exception $e) {
             // Annuler la transaction en cas d'erreur

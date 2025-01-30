@@ -51,6 +51,8 @@
         $heureDepart = date("H\hi", strtotime($heureDepart));  // H:i correspond à l'heure et minutes uniquement
         $heureRetour = date("H\hi", strtotime($heureRetour));  // H:i correspond à l'heure et minutes uniquement
         $duree = date("H\hi", strtotime($duree));  // H:i correspond à l'heure et minutes uniquement
+
+        $date = new DateTimeImmutable($dateDepart);
     ?>
 
     <!-- ##### SECTION ETAPE 3 : TRAJETS  ##### -->
@@ -76,7 +78,7 @@
                         <p class="p_stitre">Recapitalisation de votre réservation</p>
                         <div class="cadre-ctn-recap-cd">
                             <div class="cadre-ctn-recap-cd-info">
-                                <p>Mardi 19 septembre 2024</p>
+                                <p><?php echo $date->format('l \t\h\e jS'); ?></p>
                                 <div class="cadre-ctn-recap-cd-info_txt">
                                     <div class="cadre-ctn-recap-cd-info-txt-hr">
                                         <p class="p_heure"><?php echo("$heureDepart"); ?></p>

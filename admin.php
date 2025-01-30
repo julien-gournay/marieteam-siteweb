@@ -10,7 +10,7 @@
         include "bdd.php"; // Fichier de connexion BDD
         session_start();  // Ouverture d'une session pour stocker les données
 
-        if (isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == true) {
+        if ($_SESSION['loggedin'] == NULL) {
             header('Location: admin-login.php');
         } else{
             if (isset($_SESSION['usernom'])) {

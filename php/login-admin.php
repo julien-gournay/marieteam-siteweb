@@ -1,5 +1,6 @@
 <?php
 include "../bdd.php"; 
+session_start();  // Ouverture d'une session pour stocker les données
                         
 // Vérifiez si le formulaire a été soumis
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -7,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     if($mabase){
-        $res_log = mysqli_query($cnt,"SELECT * FROM personnel WHERE `role`='admin' AND `identifiant`='$username'");
+        $res_log = mysqli_query($cnt,"SELECT * FROM personnel WHERE `role`='admin' AND `nomUtilisateur`='$username'");
         if (mysqli_num_rows($res_log) > 0) {
             $tab = mysqli_fetch_row($res_log);
             $admin_nom = $tab[2];
