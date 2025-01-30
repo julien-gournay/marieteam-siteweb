@@ -14,7 +14,7 @@
 ## INSTALLER LE PROJET
 > [!IMPORTANT]
 > Prérequis:
-> - Les réservations possible entre le 01/01/2025 et le 31/12/2025
+> - Les réservations possible entre le 16/01/2025 et le 31/12/2025
 
 ### Importation de la BDD
 Télécharger le fichier sql `marieteam.sql` se trouvant dans le dossier "BDD"
