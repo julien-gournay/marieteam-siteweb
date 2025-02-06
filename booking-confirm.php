@@ -97,7 +97,7 @@
                             </div>
                             <div class="cadre-ctn-recap-cd-qrcode">
                                 <?php
-                                    $data = 'localhost/marieteam/resa-detail.php?reference='.$reference; // Contenu du QR code
+                                    $data = 'marieteam.donovanmercier.fr/resa-detail.php?reference='.$reference; // Contenu du QR code
                                     $encodedData = urlencode($data);
                                     $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=$encodedData";
 
