@@ -38,7 +38,7 @@ section {
 }
 h1 {
   color: var(--noir);
-  font-family: "Product Sans";
+  font-family: "Product Sans", sans-serif;
   font-size: 1.5625rem;
   font-style: normal;
   font-weight: 700;
@@ -47,7 +47,7 @@ h1 {
 }
 h2 {
   color: var(--noir);
-  font-family: "Product Sans";
+  font-family: "Product Sans", sans-serif;
   font-size: 0.9375rem;
   font-style: normal;
   font-weight: 700;
@@ -59,15 +59,39 @@ h2 {
   color: #df0404;
 }
 #confirmationDiv {
+  display: none; /* Caché par défaut */
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #df0404;
-  border: 1px solid var(--blanc);
-  padding: 20px;
   z-index: 1000;
-  border-radius: 20px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Couleur semi-transparente */
+  backdrop-filter: blur(5px); /* Effet de flou */
+  z-index: 999;
+  display: none; /* Caché par défaut */
+}
+.blur {
+  filter: blur(5px);
+  transition: filter 0.3s ease-in-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .confirmationDiv-ct {
   display: flex;
@@ -79,34 +103,48 @@ h2 {
   flex-direction: row;
   gap: 1rem;
   align-items: center;
+  font-size: 1.5rem; /* Taille par défaut */
+  margin-bottom: 15px;
+  justify-content: center;
 }
 .confirmationDiv-titre h2 {
-  color: var(--blanc);
+  color: var(--bleuf);
   font-weight: 800;
   font-size: larger;
+  font-size: 1rem;
+  margin-bottom: 20px;
 }
 #confirmationDiv p {
-  color: var(--blanc);
+  color: var(--noir);
 }
 .confirmationDiv-bt {
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  justify-content: space-between;
+}
+.confirmationDiv-bt button {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 3rem;
+  cursor: pointer;
 }
 .confirmationDiv-bt-Sup {
   background-color: #de5c5c !important;
   color: var(--blanc) !important;
 }
 .confirmationDiv-bt-Sup:hover {
-  background-color: var(--blanc) !important;
-  color: #df0404 !important;
+  background-color: #df0404 !important;
+  color: var(--blanc) !important;
 }
 .confirmationDiv-bt-Ann {
-  background-color: rgb(85, 85, 85) !important;
+  background-color: #9189f0 !important;
   color: var(--blanc) !important;
 }
 .confirmationDiv-bt-Ann:hover {
-  background-color: var(--noir) !important;
+  background-color: var(--bleuf) !important;
   color: var(--blanc) !important;
 }
 .cadre-content {
@@ -162,7 +200,7 @@ h2 {
 .cadre-content-recap-voyage-detail-box .titre {
   align-self: stretch;
   color: var(--noir);
-  font-family: "Product Sans";
+  font-family: "Product Sans", sans-serif;
   font-size: 0.875rem;
   font-style: italic;
   font-weight: 400;
@@ -170,7 +208,7 @@ h2 {
 }
 .cadre-content-recap-voyage-detail-box .heure {
   color: var(--noir);
-  font-family: "Product Sans";
+  font-family: "Product Sans", sans-serif;
   font-size: 0.9375rem;
   font-style: normal;
   font-weight: 700;
@@ -178,7 +216,7 @@ h2 {
 }
 .cadre-content-recap-voyage-detail-box .date {
   color: #727272;
-  font-family: "Product Sans";
+  font-family: "Product Sans", sans-serif;
   font-size: 0.75rem;
   font-style: normal;
   font-weight: 400;
@@ -187,7 +225,7 @@ h2 {
 .cadre-content-recap-voyage-detail-box .ville {
   align-self: stretch;
   color: var(--noir);
-  font-family: "Product Sans";
+  font-family: "Product Sans", sans-serif;
   font-size: 0.9375rem;
   font-style: normal;
   font-weight: 400;
@@ -195,7 +233,7 @@ h2 {
 }
 .cadre-content-recap-voyage-num {
   color: var(--noir);
-  font-family: "Product Sans";
+  font-family: "Product Sans", sans-serif;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
@@ -217,7 +255,6 @@ h2 {
   min-width: 25rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 1rem;
 }
 .cadre-content2-information {
@@ -277,7 +314,7 @@ h2 {
 }
 .cadre-content2-transaction-ct-cadre-head p {
   color: var(--noir);
-  font-family: "Product Sans";
+  font-family: "Product Sans", sans-serif;
   font-size: 0.9375rem;
   font-style: normal;
   font-weight: 700;
@@ -292,42 +329,4 @@ h2 {
 .cadre-content2-transaction-ct-cadre-ct .sepa {
   stroke-width: 1px;
   stroke: #727272;
-}
-
-@media (max-width: 768px) {
-  #confirmationDiv {
-    padding: 15px;
-  }
-
-  .confirmationDiv-titre h2 {
-    font-size: 1.2rem;
-  }
-
-  .confirmationDiv-texte p {
-    font-size: 0.9rem;
-  }
-
-  .confirmationDiv-bt button {
-    padding: 8px;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  #confirmationDiv {
-    width: 90%; /* Prend quasiment toute la largeur */
-  }
-
-  .confirmationDiv-titre h2 {
-    font-size: 1rem;
-  }
-
-  .confirmationDiv-texte p {
-    font-size: 0.8rem;
-  }
-
-  .confirmationDiv-bt button {
-    padding: 6px;
-    font-size: 0.8rem;
-  }
 }

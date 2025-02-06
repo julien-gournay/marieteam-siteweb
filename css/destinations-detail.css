@@ -15,6 +15,7 @@ section {
   width: 90vw;
   padding: 4.75rem 8%;
   display: flex;
+  gap: 2rem;
   flex-direction: column;
   justify-content: space-evenly;
 }
@@ -141,7 +142,7 @@ section {
   align-items: flex-start;
 }
 .sec-2_info_title {
-  color: #3A2AFA;
+  color: #3a2afa;
   font-family: "Product Sans", sans-serif;
   font-size: 40px;
   font-style: normal;
@@ -165,13 +166,13 @@ section {
   width: 100%;
   height: 100%;
   border-radius: 12px 12px 0px 0px;
-  border: 1px solid var(--Bleu-fonc, #3A2AFA);
-  background: var(--Bleu-fonc, #3A2AFA);
+  border: 1px solid var(--Bleu-fonc, #3a2afa);
+  background: var(--Bleu-fonc, #3a2afa);
 }
 .sec-2_box1_head_title {
   width: 100%;
   padding: 1.5%;
-  color: #EEE;
+  color: #eee;
   text-align: center;
   font-family: "Product Sans" sans-serif;
   font-size: 19px;
@@ -185,10 +186,10 @@ section {
   width: 100%;
   height: 100%;
   border-radius: 0px 0px 12px 12px;
-  border: 6px solid var(--Bleu-fonc, #3A2AFA);
+  border: 6px solid var(--Bleu-fonc, #3a2afa);
 }
 .sec-2_box1_barre {
-  background: #3A2AFA;
+  background: #3a2afa;
   width: 10px;
   height: 130px;
 }
@@ -309,13 +310,13 @@ section {
   width: 100%;
   height: 100%;
   border-radius: 12px 12px 0px 0px;
-  border: 1px solid var(--Bleu-fonc, #3A2AFA);
-  background: var(--Bleu-fonc, #3A2AFA);
+  border: 1px solid var(--Bleu-fonc, #3a2afa);
+  background: var(--Bleu-fonc, #3a2afa);
 }
 .sec-2_box2_head_title {
   width: 100%;
   padding: 1.5%;
-  color: #EEE;
+  color: #eee;
   text-align: center;
   font-family: "Product Sans" sans-serif;
   font-size: 19px;
@@ -329,10 +330,10 @@ section {
   width: 100%;
   height: 100%;
   border-radius: 0px 0px 12px 12px;
-  border: 6px solid var(--Bleu-fonc, #3A2AFA);
+  border: 6px solid var(--Bleu-fonc, #3a2afa);
 }
 .sec-2_box2_barre {
-  background: #3A2AFA;
+  background: #3a2afa;
   width: 10px;
   height: 130px;
 }
@@ -443,4 +444,31 @@ section {
   font-weight: 700;
   line-height: normal;
 }
-/* === FIN BOX2 === */
+
+@media (max-width: 1340px) {
+  .cadre2-content {
+    padding: 20px;
+  }
+  .cadre2 {
+    width: 100%;
+  }
+  .sec-2_box1_barre {
+    height: 5px;
+    width: 100%;
+  }
+  .sec-2_box1_body {
+    flex-wrap: wrap;
+  }
+  .sec-2_box2_barre {
+    height: 5px;
+    width: 100%;
+  }
+  .sec-2_box2_body {
+    flex-wrap: wrap;
+  }
+  .sec-2_box2_body_info1_cnt {
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+  }
+}

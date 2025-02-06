@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <?php include "head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
   <title>Destination - Marie Team</title> <!-- Titre de la page -->
@@ -15,13 +16,13 @@
   <!-- ##### SECTION BANNIERE INFO  ##### -->
   <section id="sec-1">
     <?php
-      // Vérifie si l'ID dans l'URL est valide (3 caractères)
-      if (isset($_GET['id']) && strlen($_GET['id']) == 3) {
-        $id = $_GET['id']; // Variable recuperation id port
-      } else {
-        echo("<p class='messageErreur'>ID invalide ou absent. Veuillez vérifier l'URL.</p>"); // Message d'erreur de l'id port
-        exit;
-      }
+    // Vérifie si l'ID dans l'URL est valide (3 caractères)
+    if (isset($_GET['id']) && strlen($_GET['id']) == 3) {
+      $id = $_GET['id']; // Variable recuperation id port
+    } else {
+      echo ("<p class='messageErreur'>ID invalide ou absent. Veuillez vérifier l'URL.</p>"); // Message d'erreur de l'id port
+      exit;
+    }
 
     $id = mysqli_real_escape_string($cnt, $id); // Verification que l'ID est correctement échappé pour éviter les injections SQL
     $res_dest_detail = mysqli_query($cnt, "SELECT * FROM port WHERE idVille='$id'"); // Requête récupération informations sur la destination
@@ -59,7 +60,7 @@
     ?>
   </section>
 
-  
+
 
   </section>
 
@@ -68,14 +69,14 @@
     <div class='sec-2_info_title'>Nos tarifs divers</div>
     <div id="accordion-collapse" data-accordion="collapse" data-active-classes="bg-blue-100 dark:bg-gray-800 text-white dark:text-white" data-inactive-classes="bg-gray-300 dark:bg-gray-800 text-black-600 dark:text-white" class="flex flex-col gap-2">
       <?php
-        $n=1; // iniatialisation n
-        $res_depart = mysqli_query($cnt, "SELECT liaison.idvilleDepart, port.ville FROM port,liaison WHERE port.idVille=liaison.idvilleDepart AND liaison.idvilleArrivee='$id';"); // Requête : Récuperation des départs possible selon le port d'arrivée
-        while ($tab = mysqli_fetch_row($res_depart)) { // Boucle des départs possible
-          $idDepart = $tab[0]; // Variable id port départ
-          $villeDepart = $tab[1]; // Variable nom ville départ
+      $n = 1; // iniatialisation n
+      $res_depart = mysqli_query($cnt, "SELECT liaison.idvilleDepart, port.ville FROM port,liaison WHERE port.idVille=liaison.idvilleDepart AND liaison.idvilleArrivee='$id';"); // Requête : Récuperation des départs possible selon le port d'arrivée
+      while ($tab = mysqli_fetch_row($res_depart)) { // Boucle des départs possible
+        $idDepart = $tab[0]; // Variable id port départ
+        $villeDepart = $tab[1]; // Variable nom ville départ
 
 
-          echo(" 
+        echo (" 
             <h2 id=\"accordion-collapse-heading-$n\">
               <button type=\"button\" class=\"flex items-center justify-between w-full p-5 font-medium rtl:text-right text-black border-b border-black dark:border-black gap-3 bg-blue-500 rtl:text-black\" data-accordion-target=\"#accordion-collapse-body-$n\" aria-expanded=\"true\" aria-controls=\"accordion-collapse-body-$n\">
                 <span>$villeDepart</span>
@@ -85,12 +86,12 @@
               </button>
             </h2>
           ");
-              $res_departT = mysqli_query($cnt, "SELECT type.libelleType,tarif.tarif FROM tarif,liaison,type WHERE tarif.idLiaison=liaison.idLiai AND liaison.idvilleDepart='$idDepart' AND tarif.idType=type.idType"); // Requête : Liste tarifs selon le port de depart
-              while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
-                $libelleT = $tab[0]; // Variable type tari
-                $tarif = $tab[1]; // Variable prix tarif
-              }
-              echo("
+        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,tarif.tarif FROM tarif,liaison,type WHERE tarif.idLiaison=liaison.idLiai AND liaison.idvilleDepart='$idDepart' AND tarif.idType=type.idType"); // Requête : Liste tarifs selon le port de depart
+        while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
+          $libelleT = $tab[0]; // Variable type tari
+          $tarif = $tab[1]; // Variable prix tarif
+        }
+        echo ("
               <div id=\"accordion-collapse-body-$n\" class=\"hidden\" aria-labelledby=\"accordion-collapse-heading-$n\">
                 <div id='sec-2'> 
                   <div class='sec-2_info'>
@@ -103,13 +104,13 @@
                     </div>
                     
                     <div class='sec-2_box1_body'>");
-                        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,MIN(tarif.tarif) FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie='A' GROUP BY tarif.idType;"); // Requête : Liste tarifs selon le port de depart
-                        if (mysqli_num_rows($res_departT) > 0) {
-                          while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
-                            $libelleT = $tab[0]; // Variable type tari
-                            $tarif = $tab[1]; // Variable prix tarif
-  
-                            echo("
+        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,MIN(tarif.tarif) FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie='A' GROUP BY tarif.idType;"); // Requête : Liste tarifs selon le port de depart
+        if (mysqli_num_rows($res_departT) > 0) {
+          while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
+            $libelleT = $tab[0]; // Variable type tari
+            $tarif = $tab[1]; // Variable prix tarif
+
+            echo ("
                             <div class='sec-2_box1_body_info1'>
                               <div class=\"sec-2_box1_body_info1_cnt\">
                                 <div class=\"sec-2_box1_body_info1_age\"><br>$libelleT</div>
@@ -117,14 +118,14 @@
                               </div>
                             </div>
                             <div class=\"sec-2_box1_barre\"></div>");
-                          };
-                        } else{
-                          echo("
+          };
+        } else {
+          echo ("
                           <div class='sec-2_box1_body_info1'>
                               <p>Aucun billet n'est disponible pour ce départ.</p>
                           </div>");
-                        }
-                      echo("
+        }
+        echo ("
                     </div>
                   </div>
 
@@ -134,13 +135,13 @@
                     </div>
                     
                     <div class='sec-2_box2_body'>");
-                        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,MIN(tarif.tarif) FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie!='A' GROUP BY tarif.idType;"); // Requête : Liste tarifs selon le port de depart
-                        if (mysqli_num_rows($res_departT) > 0) {
-                          while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
-                            $libelleT = $tab[0]; // Variable type tari
-                            $tarif = $tab[1]; // Variable prix tarif
-  
-                            echo("
+        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,MIN(tarif.tarif) FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie!='A' GROUP BY tarif.idType;"); // Requête : Liste tarifs selon le port de depart
+        if (mysqli_num_rows($res_departT) > 0) {
+          while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
+            $libelleT = $tab[0]; // Variable type tari
+            $tarif = $tab[1]; // Variable prix tarif
+
+            echo ("
                             <div class='sec-2_box2_body_info1'>
                               <div class='sec-2_box2_body_info1_cnt'>
                                 <div class='sec-2_box2_body_info1_vehicule'>$libelleT</div>
@@ -148,23 +149,23 @@
                               </div>
                             </div>
                             <div class=\"sec-2_box2_barre\"></div>");
-                          };
-                        } else{
-                          echo("
+          };
+        } else {
+          echo ("
                           <div class='sec-2_box2_body_info1'>
                               <p>Aucun billet n'est disponible pour ce départ.</p>
                           </div>");
-                        }
-                      echo("
+        }
+        echo ("
                     </div>
                   </div>
                 </div>
               </div>
           "); // Affichage liste accordéon ville
-          //<div id=\"accordion-open-body-$n\" class=\"hidden\" aria-labelledby=\"accordion-open-heading-$n\">
-          //    <div class=\"p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900\">"
-          $n++;
-        }
+        //<div id=\"accordion-open-body-$n\" class=\"hidden\" aria-labelledby=\"accordion-open-heading-$n\">
+        //    <div class=\"p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900\">"
+        $n++;
+      }
       ?>
       <!--<h2 id="accordion-open-heading-2">
         <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-open-body-2" aria-expanded="false" aria-controls="accordion-open-body-2">
@@ -185,5 +186,7 @@
 
   <?php include "footer.php" ?> <!-- Inclure le footer -->
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script> <!-- Modules Flowbite (pour composant) -->
+  <script src="js/destination-detail.js"></script> <!-- Scripts pour la page de détail -->
 </body>
+
 </html>

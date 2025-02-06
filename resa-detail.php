@@ -49,54 +49,75 @@
     $heureRetour = date("H\hi", strtotime($heureRetour));  // H:i correspond à l'heure et minutes uniquement
     $duree = date("H\hi", strtotime($duree));  // H:i correspond à l'heure et minutes uniquement
 
+    if ($mabase) {
+        $res_resa = mysqli_query($cnt, "SELECT reservation.reference,reservation.idTrajet,client.nom,client.prenom,client.telephone,client.email,trajet.dateDepart,trajet.heureDepart,trajet.dateArrive,trajet.heureArrive,liaison.duree,port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
+        $res_resa2 = mysqli_query($cnt, "SELECT port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleDepart=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
+    }
+
+    while ($tab = mysqli_fetch_row($res_resa)) { // Récupération des infos
+        $reference = $tab[0]; // Variable référence réservation
+        $idTraversé = $tab[1]; // Variable id Trajet
+        $nom = $tab[2]; // Variable nom client
+        $prenom = $tab[3]; // Variable prenom client
+        $tel = $tab[4]; // Variable tel client
+        $mail = $tab[5]; // Variable mail client
+        $dateDepart = $tab[6]; // Variable date départ
+        $heureDepart = $tab[7]; // Variable heure départ
+        $dateRetour = $tab[8]; // Variable date arrivée
+        $heureRetour = $tab[9]; // Variable heure arrivée
+        $duree = $tab[10]; // Variable durée trajet
+        $villeRetour = $tab[11]; // Variable ville arrivée
+        $paysRetour = $tab[12]; // Variable pays arrivée
+        $photo = $tab[13]; // Variable photo destination
+        break;
+    }
+    while ($tab = mysqli_fetch_row($res_resa2)) { // Récupération des infos
+        $villeDepart = $tab[0]; // Variable référence réservation
+        $paysDepart = $tab[1]; // Variable id Trajet
+        $photoDepart = $tab[2]; // Variable nom client
+        break;
+    }
+
+    $heureDepart = date("H\hi", strtotime($heureDepart));  // H:i correspond à l'heure et minutes uniquement
+    $heureRetour = date("H\hi", strtotime($heureRetour));  // H:i correspond à l'heure et minutes uniquement
+    $duree = date("H\hi", strtotime($duree));  // H:i correspond à l'heure et minutes uniquement
 
     ?>
     <section id="sec-1">
         <div class="cadre">
-            <div class="cadre-head">
-                <h1>Réservation #<?php echo ("$reference"); ?></h1> <!-- Affichage référence réservation -->
-
-                <!-- +++ ANNULATION RESERVATION +++ -->
-                <button onclick="return confirmerSuppression()">Annuler ma réservation</button>
-                <div id="confirmationDiv">
-                    <div class="confirmationDiv-ct">
-                        <div class="confirmationDiv-titre">
-                            <svg width="2rem" fill="#ffffff" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier">
-                                    <title>warning</title>
-                                    <path d="M30.555 25.219l-12.519-21.436c-1.044-1.044-2.738-1.044-3.782 0l-12.52 21.436c-1.044 1.043-1.044 2.736 0 3.781h28.82c1.046-1.045 1.046-2.738 0.001-3.781zM14.992 11.478c0-0.829 0.672-1.5 1.5-1.5s1.5 0.671 1.5 1.5v7c0 0.828-0.672 1.5-1.5 1.5s-1.5-0.672-1.5-1.5v-7zM16.501 24.986c-0.828 0-1.5-0.67-1.5-1.5 0-0.828 0.672-1.5 1.5-1.5s1.5 0.672 1.5 1.5c0 0.83-0.672 1.5-1.5 1.5z"></path>
-                                </g>
-                            </svg>
-                            <h2>ANNULATION DE VOTRE RESERVATION</h2>
-                        </div>
-                        <div class="confirmationDiv-texte">
-                            <p><b>Êtes-vous sûr de vouloir supprimer cette réservation ?</b></p>
-                            <p>En confirmant la suppression de cette réservation, vous accepter annuler votre commande et ne pourrait revenir en arrière.</p>
-                        </div>
-                        <div class="confirmationDiv-bt">
-                            <button class="confirmationDiv-bt-Sup" onclick="supprimerReservation()">Oui, supprimer</button>
-                            <button class="confirmationDiv-bt-Ann" onclick="fermerConfirmation()">Fermer</button>
-                        </div>
+            <div id="main-content">
+                <!-- Contenu de votre page -->
+                <div class="cadre-head">
+                    <h1>Réservation #<?php echo ("$reference"); ?></h1>
+                    <button onclick="return confirmerSuppression()">Annuler ma réservation</button>
+                </div>
+            </div>
+            <div id="overlay"></div>
+            <div id="confirmationDiv">
+                <div class="confirmationDiv-ct">
+                    <div class="confirmationDiv-titre">
+                        <svg width="2rem" fill="#ffffff" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <title>warning</title>
+                                <path d="M30.555 25.219l-12.519-21.436c-1.044-1.044-2.738-1.044-3.782 0l-12.52 21.436c-1.044 1.043-1.044 2.736 0 3.781h28.82c1.046-1.045 1.046-2.738 0.001-3.781zM14.992 11.478c0-0.829 0.672-1.5 1.5-1.5s1.5 0.671 1.5 1.5v7c0 0.828-0.672 1.5-1.5 1.5s-1.5-0.672-1.5-1.5v-7zM16.501 24.986c-0.828 0-1.5-0.67-1.5-1.5 0-0.828 0.672-1.5 1.5-1.5s1.5 0.672 1.5 1.5c0 0.83-0.672 1.5-1.5 1.5z"></path>
+                            </g>
+                        </svg>
+                        <h2>ANNULATION DE VOTRE RESERVATION</h2>
+                    </div>
+                    <div class="confirmationDiv-texte">
+                        <p><b>Êtes-vous sûr de vouloir supprimer cette réservation ?</b></p>
+                        <p>En confirmant la suppression de cette réservation, vous acceptez d'annuler votre commande et ne pourrez revenir en arrière.</p>
+                    </div>
+                    <div class="confirmationDiv-bt">
+                        <button class="confirmationDiv-bt-Sup" onclick="supprimerReservation()">Oui, supprimer</button>
+                        <button class="confirmationDiv-bt-Ann" onclick="fermerConfirmation()">Fermer</button>
                     </div>
                 </div>
-                <script>
-                    function confirmerSuppression() {
-                        document.getElementById("confirmationDiv").style.display = "block";
-                        return false; // Empêche le rechargement de la page
-                    }
-
-                    function fermerConfirmation() {
-                        document.getElementById("confirmationDiv").style.display = "none";
-                    }
-
-                    function supprimerReservation() {
-                        // Redirection vers la page PHP de suppression
-                        window.location.href = "php/supprimer-resa.php?reference=<?php echo $reference; ?>";
-                    }
-                </script>
             </div>
+
+
             <div class="cadre-content">
                 <div class="cadre-content-recap">
                     <div class="cadre-content-recap-banniere">
@@ -108,6 +129,10 @@
                         <div class="cadre-content-recap-voyage-detail">
                             <div class="cadre-content-recap-voyage-detail-box">
                                 <p class="titre">Départ</p>
+                                <p class="heure"><?php echo ("$heureDepart"); ?></p>
+                                <p class="date"><?php echo ("$dateDepart"); ?></p>
+                                <p class="ville"><?php echo ("$villeDepart, $paysDepart"); ?></p>
+
                                 <p class="heure"><?php echo ("$heureDepart"); ?></p>
                                 <p class="date"><?php echo ("$dateDepart"); ?></p>
                                 <p class="ville"><?php echo ("$villeDepart, $paysDepart"); ?></p>
@@ -200,6 +225,7 @@
 
     <?php include "footer.php" ?> <!-- Inclure le footer -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script> <!-- Modules Flowbite (pour composant) -->
+    <script src="js/resa-detail.js"></script> <!-- Scripts pour la page de détail -->
 </body>
 
 </html>
