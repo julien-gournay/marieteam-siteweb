@@ -6,7 +6,14 @@
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <?php include "bdd.php"; // Fichier de connexion BDD ?>
+    <?php 
+        include "bdd.php"; // Fichier de connexion BDD 
+        $deleted = isset($_GET['deleted']) && $_GET['deleted'] === 'success';
+
+        // Récupérer les liaisons depuis la bdd
+        $query = $pdo->query("SELECT * FROM liaison");
+        $liaisons = $query->fetchAll();
+    ?>
    
 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
    <span class="sr-only">Open sidebar</span>
@@ -19,58 +26,69 @@
    <?php include "navbarAdmin.php"; ?>
 </aside>
 
-<div class="p-4 sm:ml-64">
-   
-<table id="search-table">
-    <thead>
-        <tr>
-            <th>
-                <span class="flex items-center">id Liaison</span>
-            </th>
-            <th>
-                <span class="flex items-center">Ville Depart</span>
-            </th>
-            <th>
-                <span class="flex items-center">Ville Arrivee</span>
-            </th>
-            <th>
-                <span class="flex items-center">Duree</span>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php
-    $res_liaison = mysqli_query($cnt, "SELECT * FROM liaison;"); // Requête :
-    while ($tab = mysqli_fetch_row($res_liaison)) { // Boucle pour afficher les ports dispo (requête : res3 [bdd.php])
-        $idLiai = $tab[0]; // Variable de l'id port
-        $idvilleDepart = $tab[1]; // Variable nom port
-        $idvilleArrivee = $tab[2]; // Variable photo port
-        $duree = $tab[3];// Variable duree
 
-        echo("<tr>
-            <td class=\"font-medium text-gray-900 whitespace-nowrap dark:text-white\">$idLiai</td>
-            <td>$idvilleDepart</td>
-            <td>$idvilleArrivee</td>
-            <td>$duree</td>
-        </tr>
-        "); // Affichage des ports sous forme de cadre/bouton
-    }
-        ?>
-    </tbody>
-</table>
 
+<div class="p-4 sm:ml-64 pl-8 pt-5 pr-8 pb-5">
+    <!-- Alerte de succès Flowbite -->
+    <?php if ($deleted): ?>
+        <div id="success-alert" class="alert alert-success fixed top-5 left-1/2 transform -translate-x-1/2 w-96 bg-green-500 text-white p-4 rounded-md shadow-lg z-10" role="alert">
+            <span class="font-bold">Succès!</span> La liaison a été supprimée avec succès.
+        </div>
+        <script>
+            // Masquer l'alerte après 8 secondes
+            setTimeout(function () {
+                document.getElementById('success-alert').style.display = 'none';
+            }, 8000);  // 8 secondes
+        </script>
+    <?php endif; ?>
+
+    <div class="relative overflow-x-auto">
+        <input type="text" id="searchInput" placeholder="Rechercher..." class="mb-4 p-2 border rounded w-full">
+        
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">Id liaison</th>
+                    <th scope="col" class="px-6 py-3">Id ville D</th>
+                    <th scope="col" class="px-6 py-3">Id ville A</th>
+                    <th scope="col" class="px-6 py-3">Durée (h:m)</th>
+                    <th scope="col" class="px-6 py-3">Editer</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <?php
+                foreach ($liaisons as $liaison) {
+                    echo "<tr class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-300 transition duration-200'>";
+                    echo "<td class='px-6 py-4'>{$liaison['idLiai']}</td>";
+                    echo "<td class='px-6 py-4'>{$liaison['idvilleDepart']}</td>";
+                    echo "<td class='px-6 py-4'>{$liaison['idvilleArrivee']}</td>";
+                    echo "<td class='px-6 py-4'>{$liaison['duree']}</td>";
+                    echo "<td class=\"px-6 py-4\">
+                        <a href=\"php/supprimer-data.php?id=".urlencode('"'.$liaison['idLiai'].'"')."\"
+                            class=\"px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition duration-200\"
+                            onclick=\"return confirm('Voulez-vous vraiment supprimer cette liaison ?');\">
+                            Supprimer
+                        </a>
+                    </td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById("searchInput").addEventListener("keyup", function () {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll("#tableBody tr");
+
+            rows.forEach(row => {
+                let text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? "" : "none";
+            });
+        });
+    </script>
 </div>
-<script>
-
-if (document.getElementById("search-table") && typeof simpleDatatables.DataTable !== 'undefined') {
-    const dataTable = new simpleDatatables.DataTable("#search-table", {
-        searchable: true,
-        sortable: false
-    });
-}
-
-</script>
-
 
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
 </body>

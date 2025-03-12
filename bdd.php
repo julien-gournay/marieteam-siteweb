@@ -16,6 +16,16 @@
         $res4 = mysqli_query($cnt, "SELECT COUNT(port.ville) FROM port;"); // Requête pour compter le nombre de ports
     }
 
+
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$database;charset=utf8", $user, $password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]);
+    } catch (PDOException $e) {
+        die("Erreur de connexion : " . $e->getMessage());
+    }
+
     // TEST FUNCTION
     /*function rechercheH($villed,$villea,$dated){
         $cnt = mysqli_connect('localhost', 'root', '');

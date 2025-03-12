@@ -112,7 +112,29 @@
             session_start(); // Ouverture d'une session pour stocker les données
             $_SESSION['idReservation'] = $idReservation;
             echo "<span style='color: green; '><b>✅ Transaction validée avec succés</b></span><br>";
-            confirmationMail($idReservation,$emailClient,$prenomClient);
+
+
+            if($mabase){
+                $res_resa = mysqli_query($cnt,"SELECT trajet.dateDepart,trajet.heureDepart,trajet.dateArrive,trajet.heureArrive,port.ville,port.pays,port.photo FROM reservation,trajet,liaison,port WHERE reservation.reference='$idReservation' AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
+                $res_resa2 = mysqli_query($cnt,"SELECT port.ville,port.pays FROM reservation,trajet,liaison,port WHERE reservation.reference='$idReservation' AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleDepart=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
+            }
+            while ($tab = mysqli_fetch_row($res_resa)) { // Récupération des infos
+                $dateDepart = $tab[0]; // Variable Date depart selectionnée
+                $heureDepart = $tab[1]; // Variable Date depart selectionnée
+                $dateArrivee = $tab[2]; // Variable Date depart selectionnée*
+                $heureArrivee = $tab[3]; // Variable Date depart selectionnée
+                $villeRetour = $tab[4]; // Variable ville arrivée
+                $paysRetour = $tab[5]; // Variable pays arrivée
+                $photo = $tab[6]; // Variable photo destination
+                break;
+            }
+            while ($tab = mysqli_fetch_row($res_resa2)) { // Récupération des infos
+                $villeDepart = $tab[0]; // Variable référence réservation
+                $paysDepart = $tab[1]; // Variable id Trajet
+                break;
+            }
+
+            confirmationMail($idReservation,$emailClient,$telClient,$prenomClient,$nomClient,$dateDepart,$heureDepart,$dateArrivee,$heureArrivee,$villeDepart,$paysDepart,$villeRetour,$paysRetour,$photo);
             header('Location: ../booking-confirm.php'); // Redirection
         } catch (Exception $e) {
             // Annuler la transaction en cas d'erreur

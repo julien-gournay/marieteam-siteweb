@@ -1,18 +1,27 @@
 <?php
-// Récupérer le nom de la page PHP en cours
-$currentPage = basename($_SERVER['PHP_SELF']);
+    session_start(); // Démarrer la session
 
-// Fonction pour ajouter la classe active à l'element de la page ouverte
-function addActiveClass($page, $current) {
-    return ($page == $current) ? 'active' : '';
-}
+    // Vérifier si l'admin est connecté
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+        header("Location: admin-login.php"); // Redirection vers la page de connexion
+        exit();
+    }
+
+
+    // Récupérer le nom de la page PHP en cours
+    $currentPage = basename($_SERVER['PHP_SELF']);
+
+    // Fonction pour ajouter la classe active à l'element de la page ouverte
+    function addActiveClass($page, $current) {
+        return ($page == $current) ? 'active' : '';
+    }
 ?>
 
 <div class="h-full px-3 py-4 overflow-y-auto navbarAdmin">
     <a href="admin.php" class="flex items-center ps-2.5 mb-5">
         <img src="img/logosvg_bleu.svg" class="h-6 me-3 sm:h-7" alt="MarieTeam Logo" />
     </a>
-    <div id="dropdown-cta" class="p-4 mt-6 rounded-lg bg-blue-50 dark:bg-blue-900" role="alert">
+    <div id="dropdown-cta" class="p-4 mt-6 mb-6 rounded-lg bg-blue-50 dark:bg-blue-900" role="alert">
         <div class="flex items-center mb-3">
         <span class="bg-blue-500 text-blue-100 text-sm font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-900">Dev</span>
         <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-blue-50 inline-flex justify-center items-center w-6 h-6 text-blue-900 rounded-lg focus:ring-2 focus:ring-blue-400 p-1 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-400 dark:hover:bg-blue-800" data-dismiss-target="#dropdown-cta" aria-label="Close">
@@ -104,17 +113,11 @@ function addActiveClass($page, $current) {
             </a>
         </li>
         <li>
-            <a href="http://localhost/phpmyadmin" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <img src="img/icon/exit-svgrepo-com.svg" alt="Ville" class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                <form method="post"><button type="submit" name="supprimer">Supprimer 'loggedin'</button></form>
-                <?php
-                // Vérifier si le bouton a été cliqué
-                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['supprimer'])) {
-                    // Appeler la fonction et afficher le message
-                    echo "<p>" . supprimerLoggedIn() . "</p>";
-                }
-                ?>
-            </a>
+            <form action="php/logout-admin.php" method="post">
+                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-300">
+                    Se déconnecter
+                </button>
+            </form>
         </li>
     </ul>
 </div>

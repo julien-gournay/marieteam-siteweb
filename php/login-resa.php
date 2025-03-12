@@ -1,18 +1,15 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") { // Vérification que le form est complet
-    $conn = new mysqli("localhost", "root", "", "marieteam");   // Connexion à la base de données
-    // Vérifiez la connexion
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+include "../bdd.php"; // Connexion à la BBD
 
+// Vérification que le formulaire sois complet
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupération des données du formulaire
     $reference = $conn->real_escape_string($_POST['reference']);
     $nom = $conn->real_escape_string($_POST['nom']);
 
     // Requête SQL
     $sql = "SELECT reservation.reference,client.nom,reservation.etat FROM reservation, client WHERE reservation.reference='$reference' AND client.nom='$nom' AND reservation.idClient=client.idClient";
-    $result = $conn->query($sql);
+    $result = $conn->query($sql); // Execution requete
 
     // Vérifiez si une réservation existe
     if ($result->num_rows > 0) {

@@ -6,7 +6,13 @@
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <?php include "bdd.php"; // Fichier de connexion BDD ?>
+    <?php 
+        include "bdd.php"; // Fichier de connexion BDD 
+        
+        // Récupérer les trajets depuis la bdd
+        $query = $pdo->query("SELECT * FROM trajet LIMIT 100");
+        $trajets = $query->fetchAll(); 
+    ?>
    
 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
    <span class="sr-only">Open sidebar</span>
@@ -19,89 +25,115 @@
    <?php include "navbarAdmin.php"; ?>
 </aside>
 
-<div class="p-4 sm:ml-64">
-   
-<table id="search-table">
-    <thead>
-        <tr>
-            <th>
-                <span class="flex items-center">
-                    id Trajet
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    nom Liai
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    id Bateau
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    date Depart
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    heure Depart
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    date Arrive
-                </span>
-            </th>
-            <th>
-                <span class="flex items-center">
-                    heure Arrive
-                </span>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php
-    $res_trajet = mysqli_query($cnt, "SELECT * FROM trajet;"); // Requête :
-    while ($tab = mysqli_fetch_row($res_trajet)) { // Boucle pour afficher les ports dispo (requête : res3 [bdd.php])
-        $idTrajet = $tab[0]; // Variable de l'id port
-        $idLiai = $tab[1]; // Variable nom port
-        $idBateau = $tab[2]; // Variable photo port
-        $dateDepart = $tab[3];
-        $heureDepart = $tab[4];
-        $dateArrive = $tab[5];
-        $heureArrive = $tab[6];
+<div class="p-4 sm:ml-64 pl-8 pt-5 pr-8 pb-5">
+    <div class="relative overflow-x-auto">
+        <input type="text" id="searchInput" placeholder="Rechercher..." class="mb-4 p-2 border rounded w-full">
         
+        <table id="trajetsTable" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">Id</th>
+                    <th scope="col" class="px-6 py-3">Liaison #</th>
+                    <th scope="col" class="px-6 py-3">Bateau #</th>
+                    <th scope="col" class="px-6 py-3">Date départ</th>
+                    <th scope="col" class="px-6 py-3">Heure départ</th>
+                    <th scope="col" class="px-6 py-3">Date Arrivée</th>
+                    <th scope="col" class="px-6 py-3">Heure Arrivée</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <?php
+                foreach ($trajets as $trajet) {
+                    echo "<tr class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-300 transition duration-200'>";
+                    echo "<td class='px-6 py-4'>{$trajet['idTrajet']}</td>";
+                    echo "<td class='px-6 py-4'>{$trajet['idLiaison']}</td>";
+                    echo "<td class='px-6 py-4'>{$trajet['idBateau']}</td>";
+                    echo "<td class='px-6 py-4'>{$trajet['dateDepart']}</td>";
+                    echo "<td class='px-6 py-4'>{$trajet['heureDepart']}</td>";
+                    echo "<td class='px-6 py-4'>{$trajet['dateArrivee']}</td>";
+                    echo "<td class='px-6 py-4'>{$trajet['heureArrivee']}</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+        <div id="pagination" class="flex justify-center items-center mt-4"></div>
+    </div>
 
-        echo("<tr>
-            <td class=\"font-medium text-gray-900 whitespace-nowrap dark:text-white\">$idTrajet</td>
-            <td>$idLiai</td>
-            <td>$idBateau</td>
-            <td>$dateDepart</td>
-            <td>$heureDepart</td>
-            <td>$dateArrive</td>
-            <td>$heureArrive</td>
-        </tr>
-        "); // Affichage des ports sous forme de cadre/bouton
-    }
-        ?>
-    </tbody>
-</table>
+    <script>
+        document.getElementById("searchInput").addEventListener("keyup", function () {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll("#tableBody tr");
 
-</div>
-<script>
+            rows.forEach(row => {
+                let text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? "" : "none";
+            });
+        });
+    </script>
+<div>
 
-if (document.getElementById("search-table") && typeof simpleDatatables.DataTable !== 'undefined') {
-    const dataTable = new simpleDatatables.DataTable("#search-table", {
-        searchable: true,
-        sortable: false
-    });
-}
-
-</script>
-
-
+<script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.5/dist/flowbite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Initialisation de la table avec Simple-DataTables
+        const dataTable = new simpleDatatables.DataTable("#trajetsTable", {
+            searchable: true,  
+            fixedHeight: true,
+            perPage: 25, // Nombre d'éléments par page
+            perPageSelect: [25, 50, 75, 100]
+        });
+
+        // Ajout des boutons de pagination personnalisés
+        function updatePagination() {
+            const pagination = document.getElementById("pagination");
+            pagination.innerHTML = ""; // Réinitialise la pagination
+            
+            const pages = dataTable.pages; // Nombre total de pages
+            const currentPage = dataTable.currentPage; // Page actuelle
+
+            if (pages <= 1) return; // Pas besoin de pagination si une seule page
+
+            const prevBtn = document.createElement("button");
+            prevBtn.innerHTML = "Précédent";
+            prevBtn.classList = "px-4 py-2 mx-1 bg-gray-200 rounded hover:bg-gray-300";
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => {
+                dataTable.previousPage();
+                updatePagination();
+            };
+
+            pagination.appendChild(prevBtn);
+
+            for (let i = 1; i <= pages; i++) {
+                const pageBtn = document.createElement("button");
+                pageBtn.innerHTML = i;
+                pageBtn.classList = `px-4 py-2 mx-1 ${i === currentPage ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"} rounded`;
+                pageBtn.onclick = () => {
+                    dataTable.page(i);
+                    updatePagination();
+                };
+                pagination.appendChild(pageBtn);
+            }
+
+            const nextBtn = document.createElement("button");
+            nextBtn.innerHTML = "Suivant";
+            nextBtn.classList = "px-4 py-2 mx-1 bg-gray-200 rounded hover:bg-gray-300";
+            nextBtn.disabled = currentPage === pages;
+            nextBtn.onclick = () => {
+                dataTable.nextPage();
+                updatePagination();
+            };
+
+            pagination.appendChild(nextBtn);
+        }
+
+        updatePagination(); // Affiche les boutons au chargement
+
+        // Mise à jour de la pagination après chaque changement de page
+        dataTable.on("datatable.page", updatePagination);
+    });
+</script>
 </body>
 </html>

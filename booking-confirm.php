@@ -12,19 +12,19 @@
 
         session_start(); // Ouverture d'une session pour stocker les données
         if(isset($_SESSION['idReservation'])){ // Verification si la reférence n'est pas vide
-            $reference = $_SESSION['idReservation']; // Variable Ville depart selectionnée
+            $reference = $_SESSION['idReservation']; // Recupération référence réservation de la session
         } else{
-            $_SESSION['error_message'] = "Une erreur est survenue, nous n'arrivons pas à recupérer votre réservation. Veillez vérifier vos mails, pour être sur que celle ci à bien été effectué."; // Stock le message d'erreur à return
-            echo '<span style="color: red;">❌ Récupération de la réservation impossible.</span>';
+            $_SESSION['error_message'] = "Une erreur est survenue, nous n'arrivons pas à recupérer votre réservation. Veillez vérifier vos mails, pour être sur que celle ci à bien été effectué."; // Stockage en session du message d'erreur
+            echo '<span style="color: red;">❌ Récupération de la réservation impossible.</span>'; // Affichage message d'erreur
             header('Location: ../booking-step4.php'); // Redirection étape 4 réservation
         }
         
-        if($mabase){
-            $res_resa = mysqli_query($cnt,"SELECT reservation.reference,reservation.idTrajet,client.nom,client.prenom,client.telephone,client.email,trajet.dateDepart,trajet.heureDepart,trajet.dateArrive,trajet.heureArrive,liaison.duree,port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
-            $res_resa2 = mysqli_query($cnt,"SELECT port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleDepart=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
+        if($mabase){ // Si la bdd est connecté alors ...
+            $res_resa1 = mysqli_query($cnt,"SELECT reservation.reference,reservation.idTrajet,client.nom,client.prenom,client.telephone,client.email,trajet.dateDepart,trajet.heureDepart,trajet.dateArrive,trajet.heureArrive,liaison.duree,port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille;"); // Requête 2 : Récupere toute les informations d'une réservation
+            $res_resa2 = mysqli_query($cnt,"SELECT port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleDepart=port.idVille;"); // Requête 2 : Récupere toute les informations de Départ
         }
 
-        while ($tab = mysqli_fetch_row($res_resa)) { // Récupération des infos
+        while ($tab = mysqli_fetch_row($res_resa1)) { // Récupération des infos de la requete 1
             $reference = $tab[0]; // Variable référence réservation
             $idTraversé = $tab[1]; // Variable id Trajet
             $nom = $tab[2]; // Variable nom client
@@ -41,18 +41,18 @@
             $photo = $tab[13]; // Variable photo destination
             break;
         }
-        while ($tab = mysqli_fetch_row($res_resa2)) { // Récupération des infos
-            $villeDepart = $tab[0]; // Variable référence réservation
-            $paysDepart = $tab[1]; // Variable id Trajet
-            $photoDepart = $tab[2]; // Variable nom client
+        while ($tab = mysqli_fetch_row($res_resa2)) { // Récupération des infos de la requete 2
+            $villeDepart = $tab[0]; // Variable ville depart
+            $paysDepart = $tab[1]; // Variable pays depart
+            $photoDepart = $tab[2]; // Variable photo depart
             break;
         }
 
-        $heureDepart = date("H\hi", strtotime($heureDepart));  // H:i correspond à l'heure et minutes uniquement
-        $heureRetour = date("H\hi", strtotime($heureRetour));  // H:i correspond à l'heure et minutes uniquement
-        $duree = date("H\hi", strtotime($duree));  // H:i correspond à l'heure et minutes uniquement
+        $heureDepart = date("H\hi", strtotime($heureDepart));  // H:i correspond à l'heure et minutes uniquement de l'heure depart
+        $heureRetour = date("H\hi", strtotime($heureRetour));  // H:i correspond à l'heure et minutes uniquement de l'heure arrivée
+        $duree = date("H\hi", strtotime($duree));  // H:i correspond à l'heure et minutes uniquement du temps de trajet
 
-        $date = new DateTimeImmutable($dateDepart);
+        $date = new DateTimeImmutable($dateDepart); // Mise en forme de la fate de départ
     ?>
 
     <!-- ##### SECTION ETAPE 3 : TRAJETS  ##### -->

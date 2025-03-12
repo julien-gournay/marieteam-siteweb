@@ -6,7 +6,13 @@
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <?php include "bdd.php"; // Fichier de connexion BDD ?>
+    <?php 
+        include "bdd.php"; // Fichier de connexion BDD 
+    
+        // Récupérer les bateaux depuis la bdd
+        $query = $pdo->query("SELECT * FROM bateau");
+        $bateaux = $query->fetchAll();
+    ?>
    
 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
    <span class="sr-only">Open sidebar</span>
@@ -19,53 +25,44 @@
    <?php include "navbarAdmin.php"; ?>
 </aside>
 
-<div class="p-4 sm:ml-64">
-   
-<table id="search-table">
-    <thead>
-        <tr>
-            <th>
-                <span class="flex items-center">id Bateau</span>
-            </th>
-            <th>
-                <span class="flex items-center">nom Bateau</span>
-            </th>
-            <th>
-                <span class="flex items-center">Marque</span>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php
-    $res_boat = mysqli_query($cnt, "SELECT * FROM bateau;"); // Requête :
-    while ($tab = mysqli_fetch_row($res_boat)) { // Boucle pour afficher les ports dispo (requête : res3 [bdd.php])
-        $idBateau = $tab[0]; // Variable de l'id port
-        $nomBateau = $tab[2]; // Variable nom port
-        $marque = $tab[3]; // Variable photo port
+<div class="p-4 sm:ml-64 pl-8 pt-5 pr-8 pb-5">
+    <div class="relative overflow-x-auto">
+        <input type="text" id="searchInput" placeholder="Rechercher..." class="mb-4 p-2 border rounded w-full">
+        
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">Id</th>
+                    <th scope="col" class="px-6 py-3">Nom bateau</th>
+                    <th scope="col" class="px-6 py-3">Marque</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <?php
+                foreach ($bateaux as $bateau) {
+                    echo "<tr class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-300 transition duration-200'>";
+                    echo "<td class='px-6 py-4'>{$bateau['idBateau']}</td>";
+                    echo "<td class='px-6 py-4'>{$bateau['nomBateau']}</td>";
+                    echo "<td class='px-6 py-4'>{$bateau['marque']}</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
 
-        echo("<tr>
-            <td class=\"font-medium text-gray-900 whitespace-nowrap dark:text-white\">$idBateau</td>
-            <td>$nomBateau</td>
-            <td>$marque</td>
-        </tr>
-        "); // Affichage des ports sous forme de cadre/bouton
-    }
-        ?>
-    </tbody>
-</table>
+    <script>
+        document.getElementById("searchInput").addEventListener("keyup", function () {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll("#tableBody tr");
 
-</div>
-<script>
-
-if (document.getElementById("search-table") && typeof simpleDatatables.DataTable !== 'undefined') {
-    const dataTable = new simpleDatatables.DataTable("#search-table", {
-        searchable: true,
-        sortable: false
-    });
-}
-
-</script>
-
+            rows.forEach(row => {
+                let text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? "" : "none";
+            });
+        });
+    </script>
+<div>
 
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
 </body>
