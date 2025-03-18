@@ -1,0 +1,6 @@
+.navbarAdmin {
+  background-color: var(--bleuc);
+}
+.active.bg-gray-100 {
+  background-color: var(--bleuf);
+}

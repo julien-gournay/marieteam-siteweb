@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <?php include "head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
+    <title>Admin | Trajet</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+    <?php
+    include "bdd.php"; // Fichier de connexion BDD 
+
+    // Récupérer les trajets depuis la bdd
+    $query = $pdo->query("SELECT * FROM trajet LIMIT 100");
+    $trajets = $query->fetchAll();
+    ?>
+
+    <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+        </svg>
+    </button>
+
+    <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+        <?php include "navbarAdmin.php"; ?>
+    </aside>
+
+    <div class="p-4 sm:ml-64 pl-8 pt-5 pr-8 pb-5">
+        <div class="relative overflow-x-auto">
+            <input type="text" id="searchInput" placeholder="Rechercher..." class="mb-4 p-2 border rounded w-full">
+
+            <table id="trajetsTable" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Id</th>
+                        <th scope="col" class="px-6 py-3">Liaison #</th>
+                        <th scope="col" class="px-6 py-3">Bateau #</th>
+                        <th scope="col" class="px-6 py-3">Date départ</th>
+                        <th scope="col" class="px-6 py-3">Heure départ</th>
+                        <th scope="col" class="px-6 py-3">Date Arrivée</th>
+                        <th scope="col" class="px-6 py-3">Heure Arrivée</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <?php
+                    foreach ($trajets as $trajet) {
+                        echo "<tr class='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-300 transition duration-200'>";
+                        echo "<td class='px-6 py-4'>{$trajet['idTrajet']}</td>";
+                        echo "<td class='px-6 py-4'>{$trajet['idLiaison']}</td>";
+                        echo "<td class='px-6 py-4'>{$trajet['idBateau']}</td>";
+                        echo "<td class='px-6 py-4'>{$trajet['dateDepart']}</td>";
+                        echo "<td class='px-6 py-4'>{$trajet['heureDepart']}</td>";
+                        echo "<td class='px-6 py-4'>{$trajet['dateArrive']}</td>";
+                        echo "<td class='px-6 py-4'>{$trajet['heureArrive']}</td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+            <div id="pagination" class="flex justify-center items-center mt-4"></div>
+        </div>
+
+        <script>
+            document.getElementById("searchInput").addEventListener("keyup", function() {
+                let filter = this.value.toLowerCase();
+                let rows = document.querySelectorAll("#tableBody tr");
+
+                rows.forEach(row => {
+                    let text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(filter) ? "" : "none";
+                });
+            });
+        </script>
+        <div>
+
+            <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.5/dist/flowbite.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    // Initialisation de la table avec Simple-DataTables
+                    const dataTable = new simpleDatatables.DataTable("#trajetsTable", {
+                        searchable: true,
+                        fixedHeight: true,
+                        perPage: 25, // Nombre d'éléments par page
+                        perPageSelect: [25, 50, 75, 100]
+                    });
+
+                    // Ajout des boutons de pagination personnalisés
+                    function updatePagination() {
+                        const pagination = document.getElementById("pagination");
+                        pagination.innerHTML = ""; // Réinitialise la pagination
+
+                        const pages = dataTable.pages; // Nombre total de pages
+                        const currentPage = dataTable.currentPage; // Page actuelle
+
+                        if (pages <= 1) return; // Pas besoin de pagination si une seule page
+
+                        const prevBtn = document.createElement("button");
+                        prevBtn.innerHTML = "Précédent";
+                        prevBtn.classList = "px-4 py-2 mx-1 bg-gray-200 rounded hover:bg-gray-300";
+                        prevBtn.disabled = currentPage === 1;
+                        prevBtn.onclick = () => {
+                            dataTable.previousPage();
+                            updatePagination();
+                        };
+
+                        pagination.appendChild(prevBtn);
+
+                        for (let i = 1; i <= pages; i++) {
+                            const pageBtn = document.createElement("button");
+                            pageBtn.innerHTML = i;
+                            pageBtn.classList = `px-4 py-2 mx-1 ${i === currentPage ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"} rounded`;
+                            pageBtn.onclick = () => {
+                                dataTable.page(i);
+                                updatePagination();
+                            };
+                            pagination.appendChild(pageBtn);
+                        }
+
+                        const nextBtn = document.createElement("button");
+                        nextBtn.innerHTML = "Suivant";
+                        nextBtn.classList = "px-4 py-2 mx-1 bg-gray-200 rounded hover:bg-gray-300";
+                        nextBtn.disabled = currentPage === pages;
+                        nextBtn.onclick = () => {
+                            dataTable.nextPage();
+                            updatePagination();
+                        };
+
+                        pagination.appendChild(nextBtn);
+                    }
+
+                    updatePagination(); // Affiche les boutons au chargement
+
+                    // Mise à jour de la pagination après chaque changement de page
+                    dataTable.on("datatable.page", updatePagination);
+                });
+            </script>
+</body>
+
+</html>
