@@ -112,10 +112,12 @@
             session_start(); // Ouverture d'une session pour stocker les données
             $_SESSION['idReservation'] = $idReservation;
             echo "<span style='color: green; '><b>✅ Transaction validée avec succés</b></span><br>";
+            echo extension_loaded('intl') ? 'L\'extension intl est activée.' : 'L\'extension intl n\'est PAS activée.';
+
 
 
             if($mabase){
-                $res_resa = mysqli_query($cnt,"SELECT trajet.dateDepart,trajet.heureDepart,trajet.dateArrive,trajet.heureArrive,port.ville,port.pays,port.photo FROM reservation,trajet,liaison,port WHERE reservation.reference='$idReservation' AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
+                $res_resa = mysqli_query($cnt,"SELECT trajet.dateDepart,trajet.heureDepart,trajet.dateArrivee,trajet.heureArrivee,port.ville,port.pays,port.photo FROM reservation,trajet,liaison,port WHERE reservation.reference='$idReservation' AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
                 $res_resa2 = mysqli_query($cnt,"SELECT port.ville,port.pays FROM reservation,trajet,liaison,port WHERE reservation.reference='$idReservation' AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleDepart=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
             }
             while ($tab = mysqli_fetch_row($res_resa)) { // Récupération des infos
@@ -134,10 +136,17 @@
                 break;
             }
 
-            confirmationMail($idReservation,$emailClient,$telClient,$prenomClient,$nomClient,$dateDepart,$heureDepart,$dateArrivee,$heureArrivee,$villeDepart,$paysDepart,$villeRetour,$paysRetour,$photo);
+            $sent = confirmationMail($idReservation, $emailClient, $telClient, $prenomClient, $nomClient, $dateDepart, $heureDepart, $dateArrivee, $heureArrivee, $villeDepart, $paysDepart, $villeRetour, $paysRetour, $photo);
+            if ($sent) {
+                echo "<span style='color: green;'><b>✅ Confirmation mail envoyé avec succès.</b></span><br>";
+            } else {
+                echo "<span style='color: red;'><b>❌ Échec de l'envoi du mail de confirmation.</b></span><br>";
+            }
+
             header('Location: ../booking-confirm.php'); // Redirection
         } catch (Exception $e) {
             // Annuler la transaction en cas d'erreur
+            $pdo->beginTransaction();
             $pdo->rollBack();
             echo "Erreur : " . $e->getMessage();
         }

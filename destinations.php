@@ -30,7 +30,7 @@
               Découvrez nos différentes destinations à travers l'Europe
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <a href="#sec-2" class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+              <a href="#sec-2" class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white rounded-lg focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900" style="background: #3A2AFA;  ">
                 Explorer les destinations
                 <i class='bx bx-map text-xl ml-2 text-white'></i>
               </a>

@@ -1,4 +1,6 @@
 <?php
+///////////////////////////////////////////////////////////
+
 // Création de la connexion
 $server = "localhost";
 $database = "marieteam";
@@ -7,9 +9,13 @@ $database = "marieteam";
 $user = "root"; // ! USER PHPmyAdmin
 $password = ''; // ! MOT DE PASSE PHPmyAdmin
 
-    $cnt = mysqli_connect($server, $user, $password); // Connexion Serveur DB (serveur,user,mdp)
-    $mabase = mysqli_select_db($cnt, $database); // Choix de la DB : marieteam (defaut)
+///////////////////////////////////////////////////////////
 
+$cnt = mysqli_connect($server, $user, $password); // Connexion Serveur DB (serveur,user,mdp)
+$mabase = mysqli_select_db($cnt, $database); // Choix de la DB : marieteam (defaut)
+
+///////////////////////////////////////////////////////////
+///
 // REQUETES SQL :
 if ($cnt) {
     $res1 = mysqli_query($cnt, "SELECT * FROM port"); // Requête pour afficher tout les ports
@@ -18,6 +24,7 @@ if ($cnt) {
     $res4 = mysqli_query($cnt, "SELECT COUNT(port.ville) FROM port;"); // Requête pour compter le nombre de ports
 }
 
+///////////////////////////////////////////////////////////
 
 try {
     $pdo = new PDO("mysql:host=$server;dbname=$database;charset=utf8", $user, $password, [
@@ -28,11 +35,12 @@ try {
     die("Erreur de connexion : " . $e->getMessage());
 }
 
-// TEST FUNCTION
-/*function rechercheH($villed,$villea,$dated){
-        $cnt = mysqli_connect('localhost', 'root', '');
-        $mabase = mysqli_select_db($cnt, "marieteam");
-        $res_horaire = mysqli_query($cnt, "SELECT * FROM liaison,trajet WHERE liaison.idvilleDepart='$villed' AND liaison.idvilleArrivee='$villea' AND liaison.idLiai=trajet.idLiai AND trajet.dateDepart='$dated';");
+///////////////////////////////////////////////////////////
 
-        return $res_horaire;
-    }*/
+// Créer la connexion
+$conn = new mysqli($server, $user, $password, $database);
+
+// Vérifier la connexion
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}

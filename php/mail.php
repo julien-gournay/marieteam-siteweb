@@ -383,5 +383,6 @@
         } else{
             echo "L'email n'a pas été envoyé";
         }
+        return mail($mailDestinaire, $sujet, $$idResa);
     }
 ?>

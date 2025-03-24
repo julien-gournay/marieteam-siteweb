@@ -1,17 +1,5 @@
 <?php
-// Paramètres de connexion à la base de données
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "marieteam";
-
-// Créer la connexion
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Vérifier la connexion
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+  include "bdd.php";
 
 if (isset($_POST['villeDepart'])) {
   $villeDepart = $_POST['villeDepart'];

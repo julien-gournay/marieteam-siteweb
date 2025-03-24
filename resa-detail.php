@@ -3,7 +3,7 @@
 
 <head>
     <?php include "head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
-    <title>Destination - Marie Team</title> <!-- Titre de la page -->
+    <title>Ma réservation - Marie Team</title> <!-- Titre de la page -->
     <link rel="stylesheet" href="css/resa-detail.css"> <!-- CSS spécifique -->
     <!-- Ajout des styles Flowbite -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
@@ -56,7 +56,7 @@
     }
 
     if ($mabase) {
-        $res_resa = mysqli_query($cnt, "SELECT reservation.reference,reservation.idTrajet,client.nom,client.prenom,client.telephone,client.email,trajet.dateDepart,trajet.heureDepart,trajet.dateArrive,trajet.heureArrive,liaison.duree,port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
+        $res_resa = mysqli_query($cnt, "SELECT reservation.reference,reservation.idTrajet,client.nom,client.prenom,client.telephone,client.email,trajet.dateDepart,trajet.heureDepart,trajet.dateArrivee,trajet.heureArrivee,liaison.duree,port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
         $res_resa2 = mysqli_query($cnt, "SELECT port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleDepart=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
     }
 
@@ -89,7 +89,7 @@
     $duree = date("H\hi", strtotime($duree));  // H:i correspond à l'heure et minutes uniquement
 
     ?>
-    <div class="container mx-auto px-4 py-8 mt-20 print-container">
+    <div class="container-fluid mx-auto px-8 py-8 mt-20 print-container">
         <div class="h-16"></div>
         <!-- Carte principale unique -->
         <div class="bg-white rounded-lg shadow-lg overflow-hidden print-content">
