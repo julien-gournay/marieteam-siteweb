@@ -8,9 +8,9 @@
 </head>
 
 <body>
-    <?php
-    include "navbar.php"; // Inclure la barre de navigation
-    include "bdd.php"; // Fichier de connexion BDD
+    <?php 
+        include "navbar.php"; // Inclure la barre de navigation
+        include "bdd.php"; // Fichier de connexion DB
     ?>
 
     <!-- ##### SECTION BANNIER  ##### -->
@@ -40,11 +40,12 @@
                         <select id="villeDepart" name="villeD" onchange="updateVilleArrivee()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected>Selectionner un port</option>
                             <?php
-                            while ($tab = mysqli_fetch_row($res1)) {
-                                $id = $tab[0];
-                                $ville = $tab[1];
-                                echo ("<option value=\"$id\">$ville</option>");
-                            }
+                                while ($tab = mysqli_fetch_row($res1)) { // Boucle pour afficher les ports dispo (requête : res1 [bdd.php])
+                                    $id = $tab[0]; // Variable id port
+                                    $ville = $tab[1]; // Variable nom ville
+                        
+                                    echo("<option value=\"$id\">$ville</option>");
+                                }
                             ?>
                         </select>
                     </div>
@@ -52,6 +53,14 @@
                         <label for="">Port d'arrivée</label>
                         <select id="VilleArrivee" name="villeA" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected>Selectionner un port</option>
+                            <?php
+                                while ($tab = mysqli_fetch_row($res2)) { // Boucle pour afficher les ports dispo (requête : res2 [bdd.php])
+                                    $id = $tab[0]; // Variable id port
+                                    $ville = $tab[1]; // Variable nom ville
+                        
+                                    echo("<option value=\"$id\">$ville</option>");
+                                }  
+                            ?>
                         </select>
                     </div>
                     <div class="searchbar-composent">
@@ -98,10 +107,10 @@
                         $countDepart = $tab[0]; // Variable nb depart
 
                         $res_prixmin = mysqli_query($cnt, "SELECT MIN(tarif.tarif),liaison.idvilleArrivee,port.ville FROM tarif,liaison,port WHERE tarif.idLiaison=liaison.idLiai AND liaison.idvilleArrivee='$id' AND tarif.idType<>'B1'"); // Requête : Prix minimum pour la destination
-                        while ($tab = mysqli_fetch_row($res_prixmin)) { // Boucle 
+                        while ($tab = mysqli_fetch_row($res_prixmin)) { // Boucle
                             $prixMin = $tab[0]; // Variable prix minimum
 
-                            if ($id != NULL) { // Si l'id port n'est pas vide, alors ... 
+                            if ($id != NULL) { // Si l'id port n'est pas vide, alors ...
                                 echo ("<a href=\"destinations-detail.php?id=$id\"><div class=\"sec2-list-cadre\">
                                     <div class=\"sec2-list-cadre-img\">
                                         <img src=\"$photo\" alt=\"\">

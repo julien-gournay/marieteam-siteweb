@@ -1,14 +1,14 @@
 <?php
 // Création de la connexion
-$server = "localhost:3306";
+$server = "localhost";
 $database = "marieteam";
-//   $user = "d.mercier_m"; // ! USER PHPmyAdmin 
-//   $password = '$Dans;mkw/974'; // ! MOT DE PASSE PHPmyAdmin 
-$user = "root"; // ! USER PHPmyAdmin 
-$password = ''; // ! MOT DE PASSE PHPmyAdmin 
+//   $user = "d.mercier_m"; // ! USER PHPmyAdmin
+//   $password = '$Dans;mkw/974'; // ! MOT DE PASSE PHPmyAdmin
+$user = "root"; // ! USER PHPmyAdmin
+$password = ''; // ! MOT DE PASSE PHPmyAdmin
 
-$cnt = mysqli_connect($server, $user, $password); // Connexion Serveur BDD (serveur,user,mdp)
-$mabase = mysqli_select_db($cnt, $database); // Choix de la BDD : marieteam (defaut)
+    $cnt = mysqli_connect($server, $user, $password); // Connexion Serveur DB (serveur,user,mdp)
+    $mabase = mysqli_select_db($cnt, $database); // Choix de la DB : marieteam (defaut)
 
 // REQUETES SQL :
 if ($cnt) {

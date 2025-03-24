@@ -7,7 +7,7 @@
 </head>
 <body>
     <?php 
-      include "bdd.php"; // Fichier de connexion BDD 
+      include "bdd.php"; // Fichier de connexion DB
       
       // Récupérer les ports depuis la bdd
       $query = $pdo->query("SELECT * FROM port");

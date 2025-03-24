@@ -7,8 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Si le formulaire est saisi
     $username = $_POST['username']; // Récuperation nom d'utilisateur
     $password = $_POST['password']; // Récuperation mot de passe
 
-    if($mabase){ // Vérification connexion BDD
-        $res_log = mysqli_query($cnt,"SELECT * FROM personnel WHERE `role`='admin' AND `nomUtilisateur`='$username'"); // Requete : Vérification user dans la BDD
+    if($mabase){ // Vérification connexion DB
+        $res_log = mysqli_query($cnt,"SELECT * FROM personnel WHERE `role`='admin' AND `nomUtilisateur`='$username'"); // Requete : Vérification user dans la DB
         if (mysqli_num_rows($res_log) > 0) { // Si la requete récupere 1 user
             $tab = mysqli_fetch_row($res_log);
             $admin_nom = $tab[2]; // Récuperation Nom

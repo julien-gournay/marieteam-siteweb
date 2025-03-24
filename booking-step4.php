@@ -8,7 +8,7 @@
 <body>
     <?php 
         include "navbar.php"; // Inclure la barre de navigation
-        include "bdd.php"; // Fichier de connexion BDD
+        include "bdd.php"; // Fichier de connexion DB
 
         // ### OPTION 1: RECUPERATION PARAMETRES VIA SESSION ### 
         session_start(); // Ouverture d'une session pour stocker les données
@@ -23,7 +23,7 @@
         $idPeriode = $_SESSION['periode']; // Variable Date depart selectionnée
 
 
-        if ($mabase) { // Verification que la BDD sois bien connecté
+        if ($mabase) { // Verification que la DB sois bien connecté
             $res_villeD = mysqli_query($cnt, "SELECT port.ville FROM liaison,port WHERE liaison.idVilleDepart='$idVilleDepart' AND liaison.idvilleDepart=port.idVille GROUP BY port.ville;"); // Requête : affichage nom ville depart selon id
             $res_villeA = mysqli_query($cnt, "SELECT port.ville FROM liaison,port WHERE liaison.idVilleArrivee='$idVilleArrivee' AND liaison.idvilleArrivee=port.idVille GROUP BY port.ville;"); // Requête : affichage nom ville arrivée selon id
             $res_horaire = mysqli_query($cnt, "SELECT * FROM liaison,trajet WHERE liaison.idvilleDepart='$idVilleDepart' AND liaison.idvilleArrivee='$idVilleArrivee' AND liaison.idLiai=trajet.idLiaison AND trajet.dateDepart='$dateDepart';"); // Requête : Récupération de tout les trajets selon la liaisons

@@ -8,7 +8,7 @@
 <body>
     <?php 
         include "navbar.php"; // Inclure la barre de navigation
-        include "bdd.php"; // Fichier de connexion BDD
+        include "bdd.php"; // Fichier de connexion DB
 
         session_start(); // Ouverture d'une session pour stocker les données
         if(isset($_SESSION['idReservation'])){ // Verification si la reférence n'est pas vide

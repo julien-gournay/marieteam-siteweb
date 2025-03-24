@@ -7,7 +7,7 @@
 </head>
 <body>
     <?php 
-        include "bdd.php"; // Fichier de connexion BDD 
+        include "bdd.php"; // Fichier de connexion DB
         $deleted = isset($_GET['deleted']) && $_GET['deleted'] === 'success';
 
         // Récupérer les liaisons depuis la bdd

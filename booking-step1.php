@@ -36,9 +36,9 @@
 </head>
 
 <body>
-    <?php
-    include "navbar.php"; // Inclure la barre de navigation
-    include "bdd.php"; // Fichier de connexion BDD
+    <?php 
+        include "navbar.php"; // Inclure la barre de navigation
+        include "bdd.php"; // Fichier de connexion DB
 
     session_start(); // Ouverture d'une session pour stocker les données
     ?>
@@ -112,8 +112,8 @@
                                     <input class=\"radio-ville\" type=\"radio\" name=\"villeD\" value=\"$id\" onchange=\"updateVillesArrivee(this.value)\" required>
                                     <img src=\"$photo\" alt=\"\">
                                     <p class=\"cadre-list-ville-v\">$ville</p></div>
-                                ");
-                        }
+                                "); // Affichage des ports sous forme de cadre/bouton
+                            }
                         ?>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                 <!-- +++ SELECTION VILLE D'ARRIVEE  +++ -->
                 <div class="cadre-ville">
                     <p>Selectionner la ville d'arrivée</p>
-                    <div class="cadre-list" id="villes-arrivee">
+                    <div class="cadre-list">
                         <?php
                         // Le contenu sera mis à jour dynamiquement via AJAX
                         ?>
@@ -219,5 +219,4 @@
         }
     </script>
 </body>
-
 </html>

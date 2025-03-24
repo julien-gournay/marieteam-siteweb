@@ -49,7 +49,7 @@
     </nav>
 
     <?php
-    include "bdd.php"; // Fichier de connexion BDD
+    include "bdd.php"; // Fichier de connexion DB
 
     if (isset($_GET["reference"])) { // Verification si la reférence dans l'URL n'est pas vide
         $reference = $_GET["reference"]; // Variable référence réservation

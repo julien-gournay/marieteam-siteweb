@@ -10,7 +10,7 @@
 <body>
   <?php
   include "navbar.php"; // Inclure la barre de navigation
-  include "bdd.php"; // Fichier de connexion BDD
+  include "bdd.php"; // Fichier de connexion DB
   ?>
 
   <!-- ##### SECTION BANNIERE INFO  ##### -->
@@ -55,7 +55,7 @@
         }
       }
     } else {
-      echo ("<p class='messageErreur'><b>Erreur de base de données</b><br>Veuillez réessayer plus tard.</p>"); // Message d'erreur BDD
+      echo ("<p class='messageErreur'><b>Erreur de base de données</b><br>Veuillez réessayer plus tard.</p>"); // Message d'erreur DB
     }
     ?>
   </section>

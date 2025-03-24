@@ -1,5 +1,5 @@
 <?php
-    include "../bdd.php"; // Connexion BDD
+    include "../bdd.php"; // Connexion DB
     include "mail.php";
     session_start(); // Ouverture d'une session pour stocker les données
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {

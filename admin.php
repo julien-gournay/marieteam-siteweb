@@ -7,7 +7,7 @@
 </head>
 <body>
     <?php 
-        include "bdd.php"; // Fichier de connexion BDD
+        include "bdd.php"; // Fichier de connexion DB
 
         // Récupérer les données cadres
         $chiffreAffaire = $pdo->query("SELECT SUM(ta.tarif) AS chiffre_affaire FROM reservation r 

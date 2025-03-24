@@ -1,5 +1,5 @@
 <?php
-    include "../bdd.php"; // Connexion BDD
+    include "../bdd.php"; // Connexion DB
 
     if (isset($_GET['id']) && !empty($_GET['id'])) {
         $id = $_GET['id'];
