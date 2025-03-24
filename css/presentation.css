@@ -1,0 +1,62 @@
+/* ----- Configuration sections page ----- */
+section {
+    width: 100%;
+    display: flex;
+}
+#sec-1{
+    background-color: var(--bleuc);
+    background-size: cover;
+    color: var(--noir);
+    justify-content:center;
+    align-items: center;
+    min-height: 100vh;
+}
+#sec-2{
+    color: var(--blanc);
+    background-color: var(--bleuf);
+    justify-content:center;
+    align-items: center;
+    padding: 4.75rem 8%;
+    flex-direction: column;
+    gap: 2rem;
+}
+#sec-3{
+    color: var(--blanc);
+    justify-content:center;
+    align-items: center;
+    flex-direction: column;
+    padding: 4.75rem 8%;
+    color: var(--noir);
+}
+h1{
+    color: var(--blanc);
+    font-weight: 800;
+    font-size: xx-large;
+}
+h2{
+    color: var(--blanc);
+    font-weight: 600;
+    font-size: x-large;
+}
+h3{
+    color: var(--bleuc);
+    font-size: large;
+}
+#sec-3 h2{
+    color: var(--noir);
+}
+.sec2-div{
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+button{
+    background: var(--bleuc);
+    color: var(--bleuf);
+    border: 2px solid var(--bleuc);
+}
+button:hover{
+    background: var(--noir);
+    color: var(--bleuf);
+    border: 2px solid var(--bleuc);
+}

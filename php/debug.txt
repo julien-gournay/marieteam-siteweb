@@ -1,0 +1,22 @@
+Script appelé
+Ville départ reçue: CAL
+Script appelé
+Ville départ reçue: DOU
+Script appelé
+Ville départ reçue: ALC
+Script appelé
+Ville départ reçue: CHE
+Script appelé
+Ville départ reçue: CAL
+Script appelé
+Ville départ reçue: CHE
+Script appelé
+Ville départ reçue: HEL
+Script appelé
+Ville départ reçue: ROS
+Script appelé
+Ville départ reçue: CAL
+Script appelé
+Ville départ reçue: NEW
+Script appelé
+Ville départ reçue: CAL

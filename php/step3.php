@@ -82,7 +82,7 @@
             echo "<span style='color: green;'>✅ Toutes les catégories sont disponibles pour ce trajet !</span><br>";
             
             // Requête SQL pour récupérer les informations du trajet
-            $res = mysqli_query($cnt, "SELECT trajet.heureDepart, trajet.dateArrive, trajet.heureArrive, liaison.duree FROM trajet, liaison WHERE trajet.idTrajet=$idTrajet AND trajet.idLiaison=liaison.idLiai;");
+            $res = mysqli_query($cnt, "SELECT trajet.heureDepart, trajet.dateArrivee, trajet.heureArrivee, liaison.duree FROM trajet, liaison WHERE trajet.idTrajet=$idTrajet AND trajet.idLiaison=liaison.idLiai;");
             
             // Vérifie si des résultats existent
             if (mysqli_num_rows($res) > 0) { 
