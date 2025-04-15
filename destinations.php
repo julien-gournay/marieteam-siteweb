@@ -2,15 +2,15 @@
 <html lang="fr">
 
 <head>
-  <?php include "head.php" ?>
+  <?php include "component/head.php" ?>
   <link rel="stylesheet" href="css/destinations.css">
   <title>Marie Team</title>
 </head>
 
 <body>
   <?php
-  include "navbar.php";
-  include "bdd.php";
+  include "component/navbar.php";
+  include "php/bdd.php";
   ?>
 
   <section id="sec-1" class="pt-32 sm:pt-40 lg:pt-24">
@@ -181,7 +181,7 @@
       </div>
     </div>
   </section>
-  <?php include "footer.php" ?>
+  <?php include "component/footer.php" ?>
   <script src="js/navbar.js"></script>
 </body>
 

@@ -19,7 +19,7 @@
                     <p>Marie Team</p>
                     <ul>
                         <li><a href="privacy.php">> Politique de confidentialité</a></li>
-                        <li><a href="">> Crédit</a></li>
+                        <li><a href="credit.php">> Crédit</a></li>
                         <li><a href="admin-login.php">> Dashboard admin</a></li>
                     </ul>
                 </div>

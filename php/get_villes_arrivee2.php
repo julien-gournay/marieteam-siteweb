@@ -1,8 +1,9 @@
 <?php
   include "bdd.php";
+  // GESTION DES VILLES D'ARRIVÉE POUR LE FORMULAIRE DE RESERVATION (BOOKING-STEP1)
 
-if (isset($_POST['villeDepart'])) {
-  $villeDepart = $_POST['villeDepart'];
+    if (isset($_POST['villeDepart'])) {
+      $villeDepart = $_POST['villeDepart'];
 
   // Requête avec les bons noms de colonnes de la table port
   $query = "SELECT DISTINCT p.idVille, p.ville, p.photo 

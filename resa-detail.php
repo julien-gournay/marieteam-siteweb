@@ -2,54 +2,21 @@
 <html lang="fr">
 
 <head>
-    <?php include "head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
+    <?php include "component/head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
     <title>Ma réservation - Marie Team</title> <!-- Titre de la page -->
     <link rel="stylesheet" href="css/resa-detail.css"> <!-- CSS spécifique -->
-    <!-- Ajout des styles Flowbite -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-    <!-- Styles spécifiques pour l'impression -->
-    <style>
-        @media print {
-            @page {
-                margin: 0;
-                size: A4;
-            }
-
-            body {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            /* Force le masquage des éléments non désirés */
-            nav,
-            footer,
-            .no-print {
-                display: none !important;
-            }
-
-            /* Reset les marges du container pour l'impression */
-            .print-container {
-                margin-top: 0 !important;
-                padding: 0 !important;
-            }
-
-            /* Assure que le contenu commence en haut de la page */
-            .print-content {
-                margin: 0 !important;
-                padding: 20px !important;
-            }
-        }
-    </style>
 </head>
 
-<body style="background-color: var(--bleuc)">
-    <!-- Navbar -->
+<body >
+
     <nav class="no-print">
-        <?php include "navbar.php"; ?>
+        <!-- Navbar -->
+        <?php include "component/navbar.php"; ?>
     </nav>
 
     <?php
-    include "bdd.php"; // Fichier de connexion DB
+    include "php/bdd.php"; // Fichier de connexion DB
 
     if (isset($_GET["reference"])) { // Verification si la reférence dans l'URL n'est pas vide
         $reference = $_GET["reference"]; // Variable référence réservation
@@ -243,7 +210,7 @@
 
     <!-- Footer -->
     <footer class="no-print">
-        <?php include "footer.php" ?>
+        <?php include "component/footer.php" ?>
     </footer>
 
     <!-- Scripts - certains peuvent être cachés à l'impression si nécessaire -->

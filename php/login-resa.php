@@ -1,5 +1,5 @@
 <?php
-include "../bdd.php"; // Connexion à la BBD
+include "bdd.php"; // Connexion à la BBD
 
 // Vérification que le formulaire sois complet
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

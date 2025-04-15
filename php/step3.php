@@ -1,5 +1,5 @@
 <?php
-include "../bdd.php"; // Inclusion du fichier de connexion à la base de données
+include "bdd.php"; // Inclusion du fichier de connexion à la base de données
 session_start(); // Démarrage de la session pour stocker des variables de session
 
 // Vérification que le formulaire a bien été soumis via une requête POST

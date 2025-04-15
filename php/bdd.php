@@ -1,4 +1,5 @@
 <?php
+// CONNEXION A LA BASE DE DONNEES /////////////////////////
 ///////////////////////////////////////////////////////////
 
 // Création de la connexion
@@ -15,7 +16,7 @@ $cnt = mysqli_connect($server, $user, $password); // Connexion Serveur DB (serve
 $mabase = mysqli_select_db($cnt, $database); // Choix de la DB : marieteam (defaut)
 
 ///////////////////////////////////////////////////////////
-///
+
 // REQUETES SQL :
 if ($cnt) {
     $res1 = mysqli_query($cnt, "SELECT * FROM port"); // Requête pour afficher tout les ports

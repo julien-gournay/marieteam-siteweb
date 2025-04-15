@@ -1,5 +1,5 @@
 <?php
-include "../bdd.php"; // Connexion à la BBD
+include "bdd.php"; // Connexion à la BBD
 session_start();  // Ouverture d'une session pour stocker les données
                         
 // Vérifiez si le formulaire a été soumis

@@ -1,9 +1,12 @@
 
-
-
 .navbarAdmin{
     background-color: var(--bleuc);
 }
 .active.bg-gray-100 {
     background-color: var(--bleuf);
+}
+
+#passengerPieChart, #incidentChart{
+    width: 15rem !important;
+    height: 15rem !important;
 }

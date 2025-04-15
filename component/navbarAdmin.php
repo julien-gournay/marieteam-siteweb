@@ -7,7 +7,6 @@
         exit();
     }
 
-
     // Récupérer le nom de la page PHP en cours
     $currentPage = basename($_SERVER['PHP_SELF']);
 
@@ -108,12 +107,12 @@
         </li>
         <li>
             <a href="http://localhost/phpmyadmin" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-            <img src="img/icon/phpmyadmin-svgrepo-com.svg" alt="Ville" class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+            <img src="../img/icon/phpmyadmin-svgrepo-com.svg" alt="Ville" class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
                 <span class="flex-1 ms-3 whitespace-nowrap">phpmyadmin</span>
             </a>
         </li>
         <li>
-            <form action="php/logout-admin.php" method="post">
+            <form action="../php/logout-admin.php" method="post">
                 <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-300">
                     Se déconnecter
                 </button>

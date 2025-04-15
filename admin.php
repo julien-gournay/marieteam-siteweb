@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php include "head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
+    <?php include "component/head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
     <title>Espace admin</title>
     <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <?php 
-        include "bdd.php"; // Fichier de connexion DB
+        include "php/bdd.php"; // Fichier de connexion DB
 
         // Récupérer les données cadres
         $chiffreAffaire = $pdo->query("SELECT SUM(ta.tarif) AS chiffre_affaire FROM reservation r 
@@ -16,8 +17,20 @@
             WHERE YEAR(r.dateResa) = YEAR(CURDATE())")->fetchColumn();
 
         $totalReservations = $pdo->query("SELECT COUNT(*) FROM reservation")->fetchColumn();
+        $totalClients = $pdo->query("SELECT COUNT(*) FROM client")->fetchColumn();
         $totalBillets = $pdo->query("SELECT SUM(b.quantite) FROM billet b")->fetchColumn();
+
+        $indicentsSemestre = $pdo->query("SELECT COUNT(*) FROM incident JOIN trajet ON incident.idTrajet = trajet.idTrajet WHERE trajet.dateDepart >= CURDATE() - INTERVAL 6 MONTH;")->fetchColumn();
+        $incidentsTotal = $pdo->query("SELECT COUNT(*) FROM incident")->fetchColumn();
+
         $traversesAujourdhui = $pdo->query("SELECT COUNT(*) FROM trajet WHERE dateDepart = CURDATE()")->fetchColumn();
+        $traversesAnnuel = $pdo->query("SELECT COUNT(*) FROM trajet  WHERE YEAR(dateDepart) = YEAR(CURDATE());")->fetchColumn();
+
+        $passagersAujourdhui = $pdo->query("SELECT SUM(b.quantite) FROM billet b, reservation r, trajet t where b.reference=r.reference AND r.idTrajet=t.idTrajet AND dateDepart = CURDATE() AND (idType = 'A1' OR idType = 'A2' OR idType = 'A3');")->fetchColumn();
+        $passagersAnnuel = $pdo->query("SELECT SUM(b.quantite) FROM billet b, reservation r, trajet t where b.reference=r.reference AND r.idTrajet=t.idTrajet AND YEAR(dateDepart) = YEAR(CURDATE()) AND (idType = 'A1' OR idType = 'A2' OR idType = 'A3');")->fetchColumn();
+        $passagersTotal = $pdo->query("SELECT SUM(b.quantite) FROM billet b where idType = 'A1' OR idType = 'A2' OR idType = 'A3'")->fetchColumn();
+
+        include "php/admin_req.php"; // Requetes pour les graphiques
     ?>
    
     <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -29,7 +42,7 @@
 
     <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
     <?php 
-        include "navbarAdmin.php"; 
+        include "component/navbarAdmin.php"; 
         $prenom = $_SESSION['userprenom'];
     ?>
     </aside>
@@ -57,11 +70,74 @@
                 <p class="text-2xl font-bold text-yellow-500"><?= $totalBillets ?></p>
             </div>
 
+            <!-- Nombre toral de passagers -->
+            <div class="bg-white p-5 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-gray-700">👨 Nombre de clients</h3>
+                <p class="text-2xl font-bold text-red-500"><?= $totalClients ?></p>
+            </div>
+
+            <!-- Nombre toral de passagers -->
+            <div class="bg-white p-5 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-gray-700">🚨 Incident</h3>
+                <div class="flex flex-row">
+                    <div class="flex flex-col w-1/2">
+                        <h4 class="text-l font-semibold text-gray-700">6 derniers mois</h4>
+                        <p class="text-2xl font-bold text-red-500"><?= $indicentsSemestre ?></p>
+                    </div>
+                    <div class="flex flex-col">
+                        <h4 class="text-l font-semibold text-gray-700">Total</h4>
+                        <p class="text-2xl font-bold text-red-500"><?= $incidentsTotal ?></p>
+                    </div>
+                </div>
+                <canvas id="incidentChart"></canvas>
+            </div>
+
             <!-- Nombre de traversées aujourd'hui -->
             <div class="bg-white p-5 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold text-gray-700">🚢 Traversées aujourd’hui</h3>
-                <p class="text-2xl font-bold text-red-500"><?= $traversesAujourdhui ?></p>
+                <h3 class="text-lg font-semibold text-gray-700">🚢 Traversées </h3>
+                <div class="flex flex-row">
+                    <div class="flex flex-col w-1/2">
+                        <h4 class="text-l font-semibold text-gray-700">Aujourd’hui</h4>
+                        <p class="text-2xl font-bold text-red-500"><?= $traversesAujourdhui ?></p>
+                    </div>
+                    <div class="flex flex-col">
+                        <h4 class="text-l font-semibold text-gray-700">Annuel</h4>
+                        <p class="text-2xl font-bold text-red-500"><?= $traversesAnnuel ?></p>
+                    </div>
+                </div>
+                <br>
+                <canvas id="weeklyLineChart"></canvas>
             </div>
+
+
+            <!-- Nombre total de client -->
+            <div class="bg-white p-5 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-gray-700">🌍 Classement des destinations</h3>
+                <p class="text-2xl font-bold text-yellow-500">Top destination : <?= $topDestination ?></p><br>
+                <canvas id="topDestChart"></canvas>
+            </div>
+
+            <div class="bg-white p-5 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-gray-700">👥​ Passagers transportés</h3>
+                <div class="flex flex-row gap-x-16">
+                    <div class="flex flex-col w-1/3">
+                        <h4 class="text-l font-semibold text-gray-700">Aujourd’hui</h4>
+                        <p class="text-2xl font-bold text-red-500"><?= $passagersAujourdhui ?></p>
+                    </div>
+                    <div class="flex flex-col w-1/3">
+                        <h4 class="text-l font-semibold text-gray-700">Annuel</h4>
+                        <p class="text-2xl font-bold text-red-500"><?= $passagersAnnuel ?></p>
+                    </div>
+                    <div class="flex flex-col w-1/3">
+                        <h4 class="text-l font-semibold text-gray-700">Total</h4>
+                        <p class="text-2xl font-bold text-red-500"><?= $passagersTotal ?></p>
+                    </div>
+                </div>
+                <canvas id="passengerPieChart"></canvas>
+            </div>
+
+            <?php include "js/graph.php"; ?>
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>

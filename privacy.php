@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php include "head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
+    <?php include "component/head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
     <title>Privacy - Marie Team</title> <!-- Titre de la page -->
     <link rel="stylesheet" href="css/privacy.css"> <!-- CSS spécifique -->
 </head>
 <body>
-    <?php include "navbar.php" // Inclure la barre de navigation ?>
+    <?php include "component/navbar.php" // Inclure la barre de navigation ?>
 
     <section id="sec-1">
         <div class="cadre">
@@ -20,7 +20,7 @@
         </div>
     </section>
 
-    <?php include "footer.php" ?>
+    <?php include "component/footer.php" ?>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 </body>
 </html>

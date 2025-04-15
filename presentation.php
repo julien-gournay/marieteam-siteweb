@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php include "head.php" ?>
+    <?php include "component/head.php" ?>
     <title>Marie Team</title>
     <link rel="stylesheet" href="css/presentation.css">
 </head>

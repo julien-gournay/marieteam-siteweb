@@ -1,5 +1,5 @@
 <?php
-require '../bdd.php'; // Fichier de connexion à la DB
+require 'bdd.php'; // Fichier de connexion à la DB
 
 if (isset($_GET['reference'])) {
     $reference = $_GET['reference'];

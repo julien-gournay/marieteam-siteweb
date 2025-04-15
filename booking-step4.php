@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php include "head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
+    <?php include "component/head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
     <title>Marie Team</title> <!-- Titre de la page -->
     <link rel="stylesheet" href="css/booking.css"> <!-- CSS spécifique -->
 </head>
 <body>
     <?php 
-        include "navbar.php"; // Inclure la barre de navigation
-        include "bdd.php"; // Fichier de connexion DB
+        include "component/navbar.php"; // Inclure la barre de navigation
+        include "php/bdd.php"; // Fichier de connexion DB
 
         // ### OPTION 1: RECUPERATION PARAMETRES VIA SESSION ### 
         session_start(); // Ouverture d'une session pour stocker les données
@@ -32,7 +32,7 @@
 
     <!-- ##### SECTION ETAPE 3 : TRAJETS  ##### -->
     <section id="sec-1">
-        <form class="cadre" method="POST" action="php/step4.php"> <!-- Formulaire de l'etape 3 -->
+        <form class="cadre" method="POST" action="php/step4.php" autocomplete="on"> <!-- Formulaire de l'etape 3 -->
             <!-- +++ CADRES PARTIE DE GAUCHE  +++ -->
             <div class="cadre-ct">
                 <!-- +++ CADRE DES DIVERSE ETAPES  +++ -->
@@ -120,7 +120,12 @@
                                 <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
                             </svg>
                             </div>
-                            <input type="text" name="nom" id="email-address-icon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nom">
+                            <input type="text"
+                                   name="nom"
+                                   id="email-address-icon"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                   placeholder="Nom"
+                                   autocomplete="family-name">
                         </div>
                         
                         <div class="relative">
@@ -130,7 +135,12 @@
                                 <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
                             </svg>
                             </div>
-                            <input type="text" name="prenom" id="email-address-icon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Prénom">
+                            <input type="text"
+                                   name="prenom"
+                                   id="email-address-icon"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                   placeholder="Prénom"
+                                   autocomplete="given-name">
                         </div>
 
                         <div class="relative">
@@ -142,7 +152,8 @@
                             <input type="text" id="phone-input" name="tel"
                                 aria-describedby="helper-text-explanation" 
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                placeholder="Numéro de téléphone" 
+                                placeholder="Numéro de téléphone"
+                                autocomplete="tel"
                                 required
                             />
                         </div>
@@ -183,7 +194,12 @@
                             <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
                         </svg>
                         </div>
-                        <input type="text" name="email" id="email-address-icon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Adresse mail">
+                        <input type="text"
+                               name="email"
+                               id="email-address-icon"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               placeholder="Adresse mail"
+                               autocomplete="email">
                     </div>
 
                 </div>
@@ -364,7 +380,7 @@
         </form>
     </section>
 
-    <?php include "footer.php" ?> <!-- Inclure le footer -->
+    <?php include "component/footer.php" ?> <!-- Inclure le footer -->
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script> <!-- Modules Flowbite (pour composant) -->
     <script src="js/recap-slider.js"></script>

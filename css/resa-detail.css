@@ -4,6 +4,9 @@ section {
   width: 100%;
   display: flex;
 }
+body{
+  background-color: var(--bleuc)
+}
 #sec-1 {
   background-color: var(--blanc);
   background-size: cover;
@@ -329,4 +332,38 @@ h2 {
 .cadre-content2-transaction-ct-cadre-ct .sepa {
   stroke-width: 1px;
   stroke: #727272;
+}
+
+
+
+/* Styles spécifiques pour l'impression */
+@media print {
+  @page {
+    margin: 0;
+    size: A4;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Force le masquage des éléments non désirés */
+  nav,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset les marges du container pour l'impression */
+  .print-container {
+    margin-top: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Assure que le contenu commence en haut de la page */
+  .print-content {
+    margin: 0 !important;
+    padding: 20px !important;
+  }
 }

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php include "head.php"; ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
+    <?php include "component/head.php"; ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
     <title>Admin - Marie Team</title> <!-- Titre de la page -->
     <link rel="stylesheet" href="css/admin-login.css"> <!-- CSS spécifique -->
 </head>
 <body>
     <?php 
         session_start();
-        include "navbar.php";
+        include "component/navbar.php";
     ?>
 
     <!-- ### SECTION CONNEXION DASHBAORD ADMIN ### -->

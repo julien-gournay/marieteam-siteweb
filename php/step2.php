@@ -1,5 +1,5 @@
 <?php
-    include "../bdd.php"; // Connexion DB
+    include "bdd.php"; // Connexion DB
     session_start(); // Ouverture d'une session pour stocker les données
 
     // Vérification que le formulaire est bien rempli

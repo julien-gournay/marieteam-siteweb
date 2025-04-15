@@ -15,6 +15,6 @@
 <!-- Formulaire pour supprimer la session/réservation -->
 <form action="" method="post">
     <input type="submit" name="supprimer_session" value="Supprimer la session">
-    <button type="button"><a href="booking-step1.php">Nouvelle Réservation</a></button>
+    <button type="button"><a href="../booking-step1.php">Nouvelle Réservation</a></button>
     <button type="button"><a href="#" onclick="history.back()">Retour</a></button>
 </form>

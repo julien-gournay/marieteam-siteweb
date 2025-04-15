@@ -2,15 +2,15 @@
 <html lang="fr">
 
 <head>
-  <?php include "head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
+  <?php include "component/head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
   <title>Destination - Marie Team</title> <!-- Titre de la page -->
   <link rel="stylesheet" href="css/destinations-detail.css"> <!-- CSS spécifique -->
 </head>
 
 <body>
   <?php
-  include "navbar.php"; // Inclure la barre de navigation
-  include "bdd.php"; // Fichier de connexion DB
+  include "component/navbar.php"; // Inclure la barre de navigation
+  include "php/bdd.php"; // Fichier de connexion DB
   ?>
 
   <!-- ##### SECTION BANNIERE INFO  ##### -->
@@ -184,7 +184,7 @@
     </div>
   </section>
 
-  <?php include "footer.php" ?> <!-- Inclure le footer -->
+  <?php include "component/footer.php" ?> <!-- Inclure le footer -->
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script> <!-- Modules Flowbite (pour composant) -->
   <script src="js/destination-detail.js"></script> <!-- Scripts pour la page de détail -->
 </body>

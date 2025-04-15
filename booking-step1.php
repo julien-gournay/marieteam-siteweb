@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <head>
-    <?php include "head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
+    <?php include "component/head.php" ?> <!-- Fichiers qui inclu les paramètres du site (meta, link) -->
     <title>Marie Team</title> <!-- Titre de la page -->
     <link rel="stylesheet" href="css/booking.css"> <!-- CSS spécifique -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -12,7 +12,7 @@
                 var villeDepart = $(this).val();
 
                 $.ajax({
-                    url: 'get_villes_arrivee.php',
+                    url: 'php/get_villes_arrivee2.php',
                     type: 'POST',
                     data: {
                         villeDepart: villeDepart
@@ -37,8 +37,8 @@
 
 <body>
 <?php
-include "navbar.php"; // Inclure la barre de navigation
-include "bdd.php"; // Fichier de connexion BDD
+include "component/navbar.php"; // Inclure la barre de navigation
+include "php/bdd.php"; // Fichier de connexion BDD
 
 session_start(); // Ouverture d'une session pour stocker les données
 ?>
@@ -200,14 +200,14 @@ session_start(); // Ouverture d'une session pour stocker les données
     </script>-->
 </section>
 
-<?php include "footer.php" ?> <!-- Inclure le footer -->
+<?php include "component/footer.php" ?> <!-- Inclure le footer -->
 
 <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script> <!-- Modules Flowbite (pour composant) -->
 <script src="js/recap-slider.js"></script>
 <script>
     function updateVillesArrivee(villeDepart) {
         $.ajax({
-            url: 'get_villes_arrivee.php',
+            url: 'php/get_villes_arrivee2.php',
             type: 'POST',
             data: {
                 villeDepart: villeDepart

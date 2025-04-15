@@ -1,5 +1,6 @@
 <?php
-include "../bdd.php";
+    include "bdd.php";
+    // GESTION DES VILLES D'ARRIVÉE POUR LE FORMULAIRE DE RESERVATION (INDEX)
 
 // Activation des messages d'erreur PHP
 error_reporting(E_ALL);
