@@ -23,8 +23,13 @@
     }
 
     if ($mabase) {
-        $res_resa = mysqli_query($cnt, "SELECT reservation.reference,reservation.idTrajet,client.nom,client.prenom,client.telephone,client.email,trajet.dateDepart,trajet.heureDepart,trajet.dateArrivee,trajet.heureArrivee,liaison.duree,port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
+        $res_resa = mysqli_query($cnt, "SELECT reservation.reference,reservation.idTrajet,client.nom,client.prenom,client.telephone,client.email,trajet.dateDepart,trajet.heureDepart,trajet.dateArrivee,trajet.heureArrivee,liaison.duree,port.ville,port.pays,port.photo,SUM(billet.quantite) as totalBillets,SUM(billet.quantite * tarif.tarif) as totalPrix FROM reservation,client,trajet,liaison,port,billet,type,tarif WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille AND billet.reference=reservation.reference AND billet.idType=type.idType AND type.idType=tarif.idType AND tarif.idLiaison=liaison.idLiai GROUP BY reservation.reference;"); // Requête : Récupere toute les informations d'une réservation
         $res_resa2 = mysqli_query($cnt, "SELECT port.ville,port.pays,port.photo FROM reservation,client,trajet,liaison,port WHERE reservation.reference='$reference' AND reservation.etat='Validé' AND reservation.idClient=client.idClient AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleDepart=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
+        $res_billets = mysqli_query($cnt, "SELECT idType, SUM(quantite) as quantite 
+                                          FROM billet 
+                                          WHERE reference = '$reference' 
+                                          AND quantite > 0
+                                          GROUP BY idType;"); // Requête pour récupérer les détails des billets
     }
 
     while ($tab = mysqli_fetch_row($res_resa)) { // Récupération des infos
@@ -42,6 +47,8 @@
         $villeRetour = $tab[11]; // Variable ville arrivée
         $paysRetour = $tab[12]; // Variable pays arrivée
         $photo = $tab[13]; // Variable photo destination
+        $nombreBillet = $tab[14]; // Variable nombre total de billets
+        $prixTotal = $tab[15]; // Variable prix total
         break;
     }
     while ($tab = mysqli_fetch_row($res_resa2)) { // Récupération des infos
@@ -65,13 +72,23 @@
                 <img src="<?php echo ("$photo"); ?>" class="w-full h-full object-cover" alt="Destination">
                 <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 print:to-black/40">
                     <div class="absolute bottom-0 w-full p-6">
-                        <div class="flex justify-between items-center">
-                            <h1 class="text-2xl font-bold text-white print:text-black">Réservation #<?php echo ("$reference"); ?></h1>
+                        <div class="flex flex-col gap-4 items-center">
+                            <div class="flex items-center">
+                                <div class="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 shadow-lg">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                    </svg>
+                                    <span class="font-medium">Réservation</span>
+                                    <span class="font-bold">#<?php echo ("$reference"); ?></span>
+                                </div>
+                            </div>
                             <!-- Bouton caché à l'impression -->
-                            <button data-modal-target="confirmationModal" data-modal-toggle="confirmationModal"
-                                class="no-print text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5 print:hidden">
-                                Annuler ma réservation
-                            </button>
+                            <div class="flex justify-center">
+                                <button data-modal-target="confirmationModal" data-modal-toggle="confirmationModal"
+                                    class="no-print text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5 print:hidden">
+                                    Annuler ma réservation
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -113,57 +130,118 @@
 
                 <hr class="my-6 border-gray-200">
 
-                <!-- Section information -->
-                <div class="mb-8">
-                    <div class="flex items-center gap-2 mb-4">
-                        <svg class="w-6 h-6 text-orange-500 print:text-black" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9 9a1 1 0 112 0v4a1 1 0 11-2 0V9z"></path>
-                        </svg>
-                        <h2 class="text-lg font-semibold">Information importante</h2>
+                <!-- Section information et client -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Section information -->
+                    <?php
+                    // Vérifier si le Royaume-Uni est impliqué
+                    $isUK = false;
+                    if (strtolower($paysDepart) == 'royaume uni' || strtolower($paysRetour) == 'royaume uni') {
+                        $isUK = true;
+                    }
+                    
+                    if ($isUK) {
+                    ?>
+                    <div class="bg-white rounded-lg shadow-sm border border-orange-100">
+                        <div class="p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="bg-orange-100 p-2 rounded-full">
+                                    <svg class="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9 9a1 1 0 112 0v4a1 1 0 11-2 0V9z"></path>
+                                    </svg>
+                                </div>
+                                <h2 class="text-lg font-semibold text-gray-800">Information importante</h2>
+                            </div>
+                            <div class="bg-orange-50 rounded-lg p-4 border-l-4 border-orange-500">
+                                <p class="text-gray-700">Lors de votre enregistrement au port, un passeport vous sera demandé pour passer les contrôles à la frontière.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded print:bg-white print:border print:border-gray-200">
-                        <p class="text-gray-700">Lors de votre enregistrement au port, un passeport vous sera demandé pour passer les contrôles à la frontière.</p>
+                    <?php } ?>
+
+                    <!-- Informations client -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-100">
+                        <div class="p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="bg-blue-100 p-2 rounded-full">
+                                    <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                                <h2 class="text-lg font-semibold text-gray-800">Informations client</h2>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <p class="text-gray-700"><?php echo ("$nom $prenom"); ?></p>
+                                </div>
+                                <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    </svg>
+                                    <p class="text-gray-700"><?php echo ("$tel"); ?></p>
+                                </div>
+                                <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                    <p class="text-gray-700"><?php echo ("$mail"); ?></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <hr class="my-6 border-gray-200">
 
-                <!-- Section client -->
-                <div class="grid md:grid-cols-2 gap-6">
-                    <!-- Informations client -->
-                    <div>
-                        <h2 class="text-lg font-semibold mb-4">Informations client</h2>
-                        <div class="space-y-3">
-                            <div class="flex items-center space-x-2">
-                                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                                <p class="text-gray-700"><?php echo ("$nom $prenom"); ?></p>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                </svg>
-                                <p class="text-gray-700"><?php echo ("$tel"); ?></p>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                                <p class="text-gray-700"><?php echo ("$mail"); ?></p>
+                <!-- Détails du billet -->
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold mb-4">Détails du billet</h2>
+                    <div class="space-y-4">
+                        <?php
+                        $totalGeneral = 0; // Initialisation du total général
+                        while ($billet = mysqli_fetch_assoc($res_billets)) {
+                            // Récupérer le libellé du type
+                            $res_type = mysqli_query($cnt, "SELECT libelleType FROM type WHERE idType = '" . $billet['idType'] . "'");
+                            $type = mysqli_fetch_assoc($res_type);
+                            
+                            // Récupérer le tarif
+                            $res_tarif = mysqli_query($cnt, "SELECT tarif FROM tarif WHERE idType = '" . $billet['idType'] . "'");
+                            $tarif = mysqli_fetch_assoc($res_tarif);
+                            
+                            $prixTotal = $billet['quantite'] * $tarif['tarif'];
+                            $totalGeneral += $prixTotal; // Ajout du sous-total au total général
+                            
+                            echo '<div class="border-b pb-3">';
+                            echo '<div class="flex justify-between items-center mb-2">';
+                            echo '<span class="text-gray-600">' . $type['libelleType'] . '</span>';
+                            echo '<span class="font-medium">' . $billet['quantite'] . ' x ' . number_format($tarif['tarif'], 2) . ' €</span>';
+                            echo '</div>';
+                            echo '<div class="flex justify-end">';
+                            echo '<span class="text-sm text-gray-500">Sous-total: ' . number_format($prixTotal, 2) . ' €</span>';
+                            echo '</div>';
+                            echo '</div>';
+                        }
+                        ?>
+                        <div class="border-t pt-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-semibold">Total</span>
+                                <span class="text-lg font-bold text-blue-600"><?php echo number_format($totalGeneral, 2); ?> €</span>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Actions -->
-                    <div class="no-print flex flex-col justify-end print:hidden">
-                        <button onClick="window.print()" class="inline-flex items-center justify-center px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 ease-in-out shadow-lg hover:shadow-xl">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                            </svg>
-                            Imprimer la réservation
-                        </button>
-                    </div>
+                <!-- Actions -->
+                <div class="no-print flex flex-col justify-end print:hidden">
+                    <button onClick="window.print()" class="inline-flex items-center justify-center px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 ease-in-out shadow-lg hover:shadow-xl">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                        </svg>
+                        Imprimer la réservation
+                    </button>
                 </div>
             </div>
         </div>

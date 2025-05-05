@@ -346,6 +346,11 @@ h2 {
   body {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    transform: scale(0.8);
+    transform-origin: top left;
+    width: 125%; /* Compense la réduction d'échelle */
+    margin: 0;
+    padding: 0;
   }
 
   /* Force le masquage des éléments non désirés */
@@ -357,13 +362,21 @@ h2 {
 
   /* Reset les marges du container pour l'impression */
   .print-container {
-    margin-top: 0 !important;
+    margin: 0 !important;
     padding: 0 !important;
+    width: 125%; /* Compense la réduction d'échelle */
   }
 
   /* Assure que le contenu commence en haut de la page */
   .print-content {
     margin: 0 !important;
     padding: 20px !important;
+    width: 100%;
+  }
+
+  /* Assure que les images et autres éléments s'adaptent à l'échelle */
+  img, svg {
+    max-width: 100%;
+    height: auto;
   }
 }

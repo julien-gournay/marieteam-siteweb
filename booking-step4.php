@@ -32,6 +32,14 @@
 
     <!-- ##### SECTION ETAPE 3 : TRAJETS  ##### -->
     <section id="sec-1">
+        <!-- Bouton récapitulatif mobile -->
+        <button type="button" class="recap-toggle-button" onclick="toggleRecap()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+            </svg>
+            Récapitulatif
+        </button>
+
         <form class="cadre" method="POST" action="php/step4.php" autocomplete="on"> <!-- Formulaire de l'etape 3 -->
             <!-- +++ CADRES PARTIE DE GAUCHE  +++ -->
             <div class="cadre-ct">
@@ -115,91 +123,70 @@
                     <div class="form-info1">
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-                                <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
-                                <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
-                            </svg>
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                                </svg>
                             </div>
                             <input type="text"
                                    name="nom"
-                                   id="email-address-icon"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                   id="nom-input"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                    placeholder="Nom"
                                    autocomplete="family-name">
                         </div>
                         
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-                                <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
-                                <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
-                            </svg>
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                                </svg>
                             </div>
                             <input type="text"
                                    name="prenom"
-                                   id="email-address-icon"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                   id="prenom-input"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                    placeholder="Prénom"
                                    autocomplete="given-name">
                         </div>
 
                         <div class="relative">
-                            <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">
-                                    <path d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z"/>
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
                                 </svg>
                             </div>
-                            <input type="text" id="phone-input" name="tel"
-                                aria-describedby="helper-text-explanation" 
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                placeholder="Numéro de téléphone"
-                                autocomplete="tel"
-                                required
-                            />
+                            <input type="text" 
+                                   id="phone-input" 
+                                   name="tel"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                   placeholder="Numéro de téléphone"
+                                   autocomplete="tel"
+                                   required />
                         </div>
-                        <script>
-                            document.getElementById('phone-input').addEventListener('input', function (e) {
-                                // Récupère uniquement les chiffres saisis
-                                let rawValue = e.target.value.replace(/\D/g, '');
-
-                                // Limite le nombre de chiffres à 10
-                                if (rawValue.length > 10) {
-                                    rawValue = rawValue.slice(0, 10);
-                                }
-
-                                // Formate la valeur avec des espaces tous les 2 chiffres
-                                let formattedValue = rawValue.replace(/(\d{2})(?=\d)/g, '$1 ');
-
-                                // Affiche le formaté dans le champ d'entrée
-                                e.target.value = formattedValue;
-
-                                // Ajoute la version sans espace comme valeur à soumettre
-                                e.target.dataset.raw = rawValue;
-                            });
-
-                            // Avant l'envoi du formulaire, modifiez la valeur récupérée
-                            document.querySelector('form').addEventListener('submit', function () {
-                                let phoneInput = document.getElementById('phone-input');
-                                // Enlève les espaces pour envoyer uniquement les chiffres
-                                phoneInput.value = phoneInput.value.replace(/\s/g, '');
-                            });
-
-                        </script>
                     </div>
 
-                    <div class="relative">
+                    <div class="relative mt-4">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-                            <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
-                            <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
-                        </svg>
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                                <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
+                                <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+                            </svg>
                         </div>
-                        <input type="text"
+                        <input type="email"
                                name="email"
-                               id="email-address-icon"
-                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               id="email-input"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                placeholder="Adresse mail"
-                               autocomplete="email">
+                               autocomplete="email"
+                               required>
+                    </div>
+
+                    <!-- Case à cocher pour les conditions -->
+                    <div class="mt-4">
+                        <div class="flex items-center gap-1">
+                            <input id="link-checkbox" type="checkbox" value="true" class="w-4 h-4 text-blue-600 bg-gray-100 border-2 border-black rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700" required oninvalid="this.setCustomValidity('Veuillez lire puis accepter les conditions.')" oninput="this.setCustomValidity('')">
+                            <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">En cochant cette case, vous acceptez les <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline">conditions d'achat et de confidentitalité</a>.</label>
+                        </div>
                     </div>
 
                 </div>
@@ -363,26 +350,33 @@
                             ?>
                         </div>
                     </div>
-
-                    <div class="cadre-recap-ct-bt">
-                        <div class="flex items-center gap-1">
-                            <input id="link-checkbox" type="checkbox" value="true" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required   oninvalid="this.setCustomValidity('Veuillez lire puis accepter les conditions.')" oninput="this.setCustomValidity('')">
-                            <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">En cochant cette case, vous acceptez les <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline">conditions d'achat et de confidentitalité</a>.</label>
-                        </div>
-                    </div>
-                    <!-- +++ BOUTONS RECAP  +++ -->
-                    <div class="cadre-recap-ct-bt">
-                        <!--<button class="cadre-recap-ct-bt-ann"><a href="booking-step3.php">Précedemment</a></button>--> <!-- Bouton retour etape -->
-                        <button class="cadre-recap-ct-bt-sui" type="submit">Procéder au paiement</button> <!-- Bouton etape suivante -->
-                    </div>
                 </div>
             </div>
         </form>
+
+        <!-- Boutons de navigation mobile -->
+        <div class="mobile-nav-buttons">
+            <button type="button" class="prev-button" onclick="window.location='booking-step3.php'">Retour</button>
+            <button type="button" class="next-button" onclick="document.querySelector('form').submit()">Procéder au paiement</button>
+        </div>
     </section>
 
     <?php include "component/footer.php" ?> <!-- Inclure le footer -->
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script> <!-- Modules Flowbite (pour composant) -->
     <script src="js/recap-slider.js"></script>
+    <script>
+        function toggleRecap() {
+            const recap = document.querySelector('.cadre-recap');
+            recap.classList.toggle('active');
+        }
+
+        // Fermer le récapitulatif en cliquant en dehors
+        document.querySelector('.cadre-recap').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -120,3 +120,51 @@
         </li>
     </ul>
 </div>
+
+<script>
+    // Vérifier l'état de l'alerte au chargement de la page
+    document.addEventListener('DOMContentLoaded', function() {
+        const alertElement = document.getElementById('dropdown-cta');
+        const isAlertHidden = sessionStorage.getItem('devAlertHidden') === 'true';
+        
+        if (isAlertHidden) {
+            alertElement.style.display = 'none';
+        }
+    });
+
+    // Fermer l'alerte Dev
+    document.querySelector('[data-dismiss-target="#dropdown-cta"]').addEventListener('click', function() {
+        const alertElement = document.getElementById('dropdown-cta');
+        alertElement.style.display = 'none';
+        sessionStorage.setItem('devAlertHidden', 'true');
+    });
+
+    // Gestion du menu hamburger
+    const menuButton = document.querySelector('[data-drawer-target="logo-sidebar"]');
+    const sidebar = document.getElementById('logo-sidebar');
+
+    if (menuButton && sidebar) {
+        menuButton.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        // Fermer le menu quand on clique sur un lien
+        document.querySelectorAll('.navbarAdmin a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 1100) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            });
+        });
+
+        // Fermer le menu quand on clique en dehors
+        document.addEventListener('click', (event) => {
+            if (window.innerWidth < 1100 && 
+                !sidebar.contains(event.target) && 
+                !menuButton.contains(event.target) &&
+                !sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.add('-translate-x-full');
+            }
+        });
+    }
+</script>

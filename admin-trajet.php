@@ -27,7 +27,9 @@
 
 <div class="p-4 sm:ml-64 pl-8 pt-5 pr-8 pb-5">
     <div class="relative overflow-x-auto">
-        <input type="text" id="searchInput" placeholder="Rechercher..." class="mb-4 p-2 border rounded w-full">
+        <div class="mb-4">
+            <input type="text" id="searchInput" placeholder="Rechercher un trajet..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+        </div>
         
         <table id="trajetsTable" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -61,13 +63,26 @@
     </div>
 
     <script>
-        document.getElementById("searchInput").addEventListener("keyup", function () {
-            let filter = this.value.toLowerCase();
-            let rows = document.querySelectorAll("#tableBody tr");
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById("searchInput");
+            const tableBody = document.getElementById("tableBody");
+            const rows = tableBody.getElementsByTagName("tr");
 
-            rows.forEach(row => {
-                let text = row.textContent.toLowerCase();
-                row.style.display = text.includes(filter) ? "" : "none";
+            searchInput.addEventListener("input", function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                Array.from(rows).forEach(row => {
+                    const cells = row.getElementsByTagName("td");
+                    let found = false;
+                    
+                    Array.from(cells).forEach(cell => {
+                        if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                            found = true;
+                        }
+                    });
+                    
+                    row.style.display = found ? "" : "none";
+                });
             });
         });
     </script>
@@ -75,65 +90,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.5/dist/flowbite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Initialisation de la table avec Simple-DataTables
-        const dataTable = new simpleDatatables.DataTable("#trajetsTable", {
-            searchable: true,  
-            fixedHeight: true,
-            perPage: 25, // Nombre d'éléments par page
-            perPageSelect: [25, 50, 75, 100]
-        });
 
-        // Ajout des boutons de pagination personnalisés
-        function updatePagination() {
-            const pagination = document.getElementById("pagination");
-            pagination.innerHTML = ""; // Réinitialise la pagination
-            
-            const pages = dataTable.pages; // Nombre total de pages
-            const currentPage = dataTable.currentPage; // Page actuelle
-
-            if (pages <= 1) return; // Pas besoin de pagination si une seule page
-
-            const prevBtn = document.createElement("button");
-            prevBtn.innerHTML = "Précédent";
-            prevBtn.classList = "px-4 py-2 mx-1 bg-gray-200 rounded hover:bg-gray-300";
-            prevBtn.disabled = currentPage === 1;
-            prevBtn.onclick = () => {
-                dataTable.previousPage();
-                updatePagination();
-            };
-
-            pagination.appendChild(prevBtn);
-
-            for (let i = 1; i <= pages; i++) {
-                const pageBtn = document.createElement("button");
-                pageBtn.innerHTML = i;
-                pageBtn.classList = `px-4 py-2 mx-1 ${i === currentPage ? "bg-blue-500 text-white" : "bg-gray-200 hover:bg-gray-300"} rounded`;
-                pageBtn.onclick = () => {
-                    dataTable.page(i);
-                    updatePagination();
-                };
-                pagination.appendChild(pageBtn);
-            }
-
-            const nextBtn = document.createElement("button");
-            nextBtn.innerHTML = "Suivant";
-            nextBtn.classList = "px-4 py-2 mx-1 bg-gray-200 rounded hover:bg-gray-300";
-            nextBtn.disabled = currentPage === pages;
-            nextBtn.onclick = () => {
-                dataTable.nextPage();
-                updatePagination();
-            };
-
-            pagination.appendChild(nextBtn);
-        }
-
-        updatePagination(); // Affiche les boutons au chargement
-
-        // Mise à jour de la pagination après chaque changement de page
-        dataTable.on("datatable.page", updatePagination);
-    });
-</script>
 </body>
 </html>

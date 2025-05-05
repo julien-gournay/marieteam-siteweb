@@ -35,6 +35,14 @@
 
     <!-- ##### SECTION ETAPE 2 : BILLETS  ##### -->
     <section id="sec-1">
+        <!-- Bouton récapitulatif mobile -->
+        <button type="button" class="recap-toggle-button" onclick="toggleRecap()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+            </svg>
+            Récapitulatif
+        </button>
+
         <form class="cadre" method="POST" action="php/step2.php"> <!-- Formulaire de l'etape 2 -->
             <!-- +++ CADRES PARTIE DE GAUCHE  +++ -->
             <div class="cadre-ct">
@@ -183,20 +191,33 @@
                             <p>[A l'étape 3]</p>
                         </div>
                     </div>
-
-                    <!-- +++ BOUTONS RECAP  +++ -->
-                    <div class="cadre-recap-ct-bt">
-                        <button class="cadre-recap-ct-bt-ann"><a href="booking-step1.php">Précedemment</a></button> <!-- Bouton retour etape -->
-                        <button class="cadre-recap-ct-bt-sui" type="submit">Suivant</button> <!-- Bouton etape suivante -->
-                    </div>
                 </div>
             </div>
         </form>
+
+        <!-- Boutons de navigation mobile -->
+        <div class="mobile-nav-buttons">
+            <button type="button" class="prev-button" onclick="window.location='booking-step1.php'">Retour</button>
+            <button type="button" class="next-button" onclick="document.querySelector('form').submit()">Suivant</button>
+        </div>
     </section>
 
     <?php include "component/footer.php" ?> <!-- Inclure le footer -->
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script> <!-- Modules Flowbite (pour composant) -->
     <script src="js/recap-slider.js"></script>
+    <script>
+        function toggleRecap() {
+            const recap = document.querySelector('.cadre-recap');
+            recap.classList.toggle('active');
+        }
+
+        // Fermer le récapitulatif en cliquant en dehors
+        document.querySelector('.cadre-recap').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>

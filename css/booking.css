@@ -455,7 +455,14 @@ section {
   /* Ajustement des inputs */
   .relative input {
     font-size: 1rem;
-    padding: 0.75rem;
+    padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  }
+
+  .relative .absolute {
+    width: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* Configuration du récapitulatif */
@@ -649,6 +656,24 @@ section {
     top: 0.75rem;
     width: 2.5rem;
   }
+
+  /* Ajustement des inputs */
+  .relative input {
+    font-size: 0.9rem;
+    padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  }
+
+  .relative .absolute {
+    width: 2.5rem;
+  }
+
+  .form-info1 {
+    gap: 1rem;
+  }
+
+  .form-info1 .relative {
+    margin-bottom: 0.5rem;
+  }
 }
 
 /* Fix for arrow animation on mobile */
@@ -720,5 +745,171 @@ section {
   .cadre-list-ville:has(.radio-ville:checked),
   .cadre-list-boxh:has(.radio-trajet:checked) {
     box-shadow: 0 0 0 1.5px var(--bleuf);
+  }
+}
+
+/* Mobile Navigation Buttons */
+.mobile-nav-buttons {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--blanc);
+  padding: 1rem;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.mobile-nav-buttons button {
+  flex: 1;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-buttons .prev-button {
+  background-color: var(--blanc);
+  color: #df0404;
+  border: 1px solid #df0404;
+}
+
+.mobile-nav-buttons .next-button {
+  background-color: var(--bleuf);
+  color: var(--blanc);
+}
+
+/* Ajustement du contenu principal pour les boutons */
+#sec-1 {
+  padding-bottom: 7rem;
+  padding-top: 4rem;
+}
+
+/* Ajustement pour les grands écrans */
+@media screen and (min-width: 769px) {
+  .mobile-nav-buttons {
+    position: fixed;
+    background: var(--blanc);
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    width: 100%;
+    max-width: 800px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  .mobile-nav-buttons button {
+    width: 100%;
+  }
+
+  #sec-1 {
+    padding-bottom: 7rem;
+  }
+}
+
+/* Bouton récapitulatif mobile */
+.recap-toggle-button {
+  display: none;
+  position: fixed;
+  bottom: 5rem;
+  left: 1rem;
+  right: 1rem;
+  width: calc(100% - 2rem);
+  background-color: var(--bleuf);
+  color: var(--blanc);
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  z-index: 1001;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  border: 2px solid #000;
+  justify-content: center;
+  border-radius: 0.5rem;
+}
+
+.recap-toggle-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+}
+
+/* Ajustement du contenu principal pour les boutons mobiles */
+@media screen and (max-width: 768px) {
+  .mobile-nav-buttons {
+    display: flex;
+  }
+
+  .recap-toggle-button {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Style du récapitulatif en version mobile */
+  .cadre-recap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1002;
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cadre-recap.active {
+    display: flex;
+  }
+
+  .cadre-recap-ct {
+    background: var(--blanc);
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    position: relative;
+  }
+
+  /* Bouton de fermeture du récapitulatif */
+  .close-recap {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--noir);
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  .close-recap svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+/* Très petits écrans */
+@media screen and (max-width: 320px) {
+  .mobile-nav-buttons {
+    padding: 0.75rem;
+  }
+
+  .mobile-nav-buttons button {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .recap-toggle-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
   }
 }

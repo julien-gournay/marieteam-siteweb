@@ -45,6 +45,14 @@ session_start(); // Ouverture d'une session pour stocker les données
 
 <!-- ##### SECTION ETAPE 1 : DESTINATION  ##### -->
 <section id="sec-1">
+    <!-- Bouton récapitulatif mobile -->
+    <button type="button" class="recap-toggle-button" onclick="toggleRecap()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+        </svg>
+        Récapitulatif
+    </button>
+
     <form class="cadre" method="POST" action="php/step1.php"> <!-- Formulaire de l'etape 1 -->
         <!-- +++ CADRES PARTIE DE GAUCHE  +++ -->
         <div class="cadre-ct">
@@ -137,7 +145,7 @@ session_start(); // Ouverture d'une session pour stocker les données
                             <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                         </svg>
                     </div>
-                    <input name="dateDepart" id="datepicker-actions" datepicker datepicker-min-date="date()" datepicker-buttons datepicker-autoselect-today datepicker-format="yyyy-mm-dd" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Selectionner une date" required> <!-- Input pour indiquer la date -->
+                    <input name="dateDepart" id="datepicker-actions" datepicker datepicker-min-date="date()" datepicker-buttons datepicker-autoselect-today datepicker-format="yyyy-mm-dd" datepicker-orientation="top" autocomplete="off" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Selectionner une date" required> <!-- Input pour indiquer la date -->
                     <script>
                         // Permet de mettre la date minimum du input à aujourd'hui
                         const today = new Date(); // Variable date du jour
@@ -164,40 +172,15 @@ session_start(); // Ouverture d'une session pour stocker les données
                     unset($_SESSION['error_message']); // Supprimez le message après l'affichage
                 }
                 ?>
-
-                <!-- +++ BOUTONS RECAP  +++ -->
-                <div class="cadre-recap-ct-bt">
-                    <button class="cadre-recap-ct-bt-ann" type="reset">Reset</button> <!-- Bouton réinitialiser form -->
-                    <button class="cadre-recap-ct-bt-sui" type="submit">Suivant</button> <!-- Bouton etape suivante -->
-                </div>
             </div>
         </div>
     </form>
-    <!--<div id="confirmationDiv">
-        <div class="confirmationDiv-ct">
-            <div class="confirmationDiv-titre">
-                <svg width="2rem" fill="#ffffff" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>warning</title> <path d="M30.555 25.219l-12.519-21.436c-1.044-1.044-2.738-1.044-3.782 0l-12.52 21.436c-1.044 1.043-1.044 2.736 0 3.781h28.82c1.046-1.045 1.046-2.738 0.001-3.781zM14.992 11.478c0-0.829 0.672-1.5 1.5-1.5s1.5 0.671 1.5 1.5v7c0 0.828-0.672 1.5-1.5 1.5s-1.5-0.672-1.5-1.5v-7zM16.501 24.986c-0.828 0-1.5-0.67-1.5-1.5 0-0.828 0.672-1.5 1.5-1.5s1.5 0.672 1.5 1.5c0 0.83-0.672 1.5-1.5 1.5z"></path></g></svg>
-                <h2>ANNULATION DE VOTRE RESERVATION</h2>
-            </div>
-            <div class="confirmationDiv-texte">
-                <p><b>Êtes-vous sûr de vouloir supprimer cette réservation ?</b></p>
-                <p>En confirmant la suppression de cette réservation, vous accepter annuler votre commande et ne pourrait revenir en arrière.</p>
-            </div>
-            <div class="confirmationDiv-bt">
-                <button class="confirmationDiv-bt-Fer" onclick="fermerReservation()">Fermer</button>
-            </div>
-        </div>
-    </div>
-    <script>
-        function confirmerSuppression() {
-            document.getElementById("confirmationDiv").style.display = "block";
-            return false; // Empêche le rechargement de la page
-        }
 
-        function fermerConfirmation() {
-            document.getElementById("confirmationDiv").style.display = "none";
-        }
-    </script>-->
+    <!-- Boutons de navigation mobile -->
+    <div class="mobile-nav-buttons">
+        <button type="button" class="prev-button" onclick="window.location='index.php'">Retour</button>
+        <button type="button" class="next-button" onclick="document.querySelector('form').submit()">Suivant</button>
+    </div>
 </section>
 
 <?php include "component/footer.php" ?> <!-- Inclure le footer -->
@@ -217,6 +200,18 @@ session_start(); // Ouverture d'une session pour stocker les données
             }
         });
     }
+
+    function toggleRecap() {
+        const recap = document.querySelector('.cadre-recap');
+        recap.classList.toggle('active');
+    }
+
+    // Fermer le récapitulatif en cliquant en dehors
+    document.querySelector('.cadre-recap').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('active');
+        }
+    });
 </script>
 </body>
 

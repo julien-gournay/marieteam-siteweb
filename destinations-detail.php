@@ -67,120 +67,107 @@
   <!-- ##### SECTION TARIFS DEPART  ##### -->
   <section id="sec-3" class="flex flex-col">
     <div class='sec-2_info_title'>Nos tarifs divers</div>
-    <div id="accordion-collapse" data-accordion="collapse" data-active-classes="bg-blue-100 dark:bg-gray-800 text-white dark:text-white" data-inactive-classes="bg-gray-300 dark:bg-gray-800 text-black-600 dark:text-white" class="flex flex-col gap-2">
+    <div id="accordion-flush" data-accordion="collapse" class="w-full">
       <?php
-      $n = 1; // iniatialisation n
-      $res_depart = mysqli_query($cnt, "SELECT liaison.idvilleDepart, port.ville FROM port,liaison WHERE port.idVille=liaison.idvilleDepart AND liaison.idvilleArrivee='$id';"); // Requête : Récuperation des départs possible selon le port d'arrivée
-      while ($tab = mysqli_fetch_row($res_depart)) { // Boucle des départs possible
-        $idDepart = $tab[0]; // Variable id port départ
-        $villeDepart = $tab[1]; // Variable nom ville départ
+      $n = 1;
+      $res_depart = mysqli_query($cnt, "SELECT liaison.idvilleDepart, port.ville FROM port,liaison WHERE port.idVille=liaison.idvilleDepart AND liaison.idvilleArrivee='$id';");
+      while ($tab = mysqli_fetch_row($res_depart)) {
+        $idDepart = $tab[0];
+        $villeDepart = $tab[1];
 
+        // Détermine si c'est le premier accordéon
+        $isFirst = $n === 1;
+        $expanded = $isFirst ? "true" : "false";
+        $hidden = $isFirst ? "" : "hidden";
 
-        echo (" 
-            <h2 id=\"accordion-collapse-heading-$n\">
-              <button type=\"button\" class=\"flex items-center justify-between w-full p-5 font-medium rtl:text-right text-black border-b border-black dark:border-black gap-3 bg-blue-500 rtl:text-black\" data-accordion-target=\"#accordion-collapse-body-$n\" aria-expanded=\"true\" aria-controls=\"accordion-collapse-body-$n\">
-                <span>$villeDepart</span>
-                <svg data-accordion-icon class=\"w-3 h-3 rotate-180 shrink-0\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 10 6\">
-                  <path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 5 5 1 1 5\"/>
+        echo ("
+          <h2 id=\"accordion-flush-heading-$n\">
+            <button type=\"button\" class=\"flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800\" data-accordion-target=\"#accordion-flush-body-$n\" aria-expanded=\"$expanded\" aria-controls=\"accordion-flush-body-$n\">
+              <span class=\"flex items-center\">
+                <svg class=\"w-5 h-5 mr-2\" fill=\"currentColor\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\">
+                  <path fill-rule=\"evenodd\" d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z\" clip-rule=\"evenodd\"></path>
                 </svg>
-              </button>
-            </h2>
-          ");
-        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,tarif.tarif FROM tarif,liaison,type WHERE tarif.idLiaison=liaison.idLiai AND liaison.idvilleDepart='$idDepart' AND tarif.idType=type.idType"); // Requête : Liste tarifs selon le port de depart
-        while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
-          $libelleT = $tab[0]; // Variable type tari
-          $tarif = $tab[1]; // Variable prix tarif
-        }
-        echo ("
-              <div id=\"accordion-collapse-body-$n\" class=\"hidden\" aria-labelledby=\"accordion-collapse-heading-$n\">
-                <div id='sec-2'> 
-                  <div class='sec-2_info'>
-                    <div class='sec-2_info_desc'>Depart $villeDepart, à partir de</div>
-                  </div>
+                $villeDepart
+              </span>
+              <svg data-accordion-icon class=\"w-3 h-3 rotate-180 shrink-0\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 10 6\">
+                <path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 5 5 1 1 5\"/>
+              </svg>
+            </button>
+          </h2>
+          <div id=\"accordion-flush-body-$n\" class=\"$hidden\" aria-labelledby=\"accordion-flush-heading-$n\">
+            <div class=\"p-5 border-b border-gray-200 dark:border-gray-700\">
+              <div id='sec-2'> 
+                <div class='sec-2_info'>
+                  <div class='sec-2_info_desc'>Depart $villeDepart, à partir de</div>
+                </div>
 
-                  <div class='sec-2_box1'>
-                    <div class='sec-2_box1_head'>
-                      <div class='sec-2_box1_head_title'>A PIED</div>
-                    </div>
-                    
-                    <div class='sec-2_box1_body'>");
-        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,MIN(tarif.tarif) FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie='A' GROUP BY tarif.idType;"); // Requête : Liste tarifs selon le port de depart
+                <div class='sec-2_box1'>
+                  <div class='sec-2_box1_head'>
+                    <div class='sec-2_box1_head_title'>A PIED</div>
+                  </div>
+                  
+                  <div class='sec-2_box1_body'>");
+        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,MIN(tarif.tarif) FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie='A' GROUP BY tarif.idType;");
         if (mysqli_num_rows($res_departT) > 0) {
-          while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
-            $libelleT = $tab[0]; // Variable type tari
-            $tarif = $tab[1]; // Variable prix tarif
+          while ($tab = mysqli_fetch_row($res_departT)) {
+            $libelleT = $tab[0];
+            $tarif = $tab[1];
 
             echo ("
-                            <div class='sec-2_box1_body_info1'>
-                              <div class=\"sec-2_box1_body_info1_cnt\">
-                                <div class=\"sec-2_box1_body_info1_age\"><br>$libelleT</div>
-                                <div class=\"sec-2_box1_body_info1_prix\">$tarif €</div>
-                              </div>
-                            </div>
-                            <div class=\"sec-2_box1_barre\"></div>");
+                    <div class='sec-2_box1_body_info1'>
+                      <div class=\"sec-2_box1_body_info1_cnt\">
+                        <div class=\"sec-2_box1_body_info1_age\"><br>$libelleT</div>
+                        <div class=\"sec-2_box1_body_info1_prix\">$tarif €</div>
+                      </div>
+                    </div>
+                    <div class=\"sec-2_box1_barre\"></div>");
           };
         } else {
           echo ("
-                          <div class='sec-2_box1_body_info1'>
-                              <p>Aucun billet n'est disponible pour ce départ.</p>
-                          </div>");
+                  <div class='sec-2_box1_body_info1'>
+                    <p>Aucun billet n'est disponible pour ce départ.</p>
+                  </div>");
         }
         echo ("
-                    </div>
                   </div>
+                </div>
 
-                  <div class='sec-2_box2'>
-                    <div class='sec-2_box2_head'>
-                      <div class='sec-2_box2_head_title'>VEHICULE</div>
-                    </div>
-                    
-                    <div class='sec-2_box2_body'>");
-        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,MIN(tarif.tarif) FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie!='A' GROUP BY tarif.idType;"); // Requête : Liste tarifs selon le port de depart
+                <div class='sec-2_box2'>
+                  <div class='sec-2_box2_head'>
+                    <div class='sec-2_box2_head_title'>VEHICULE</div>
+                  </div>
+                  
+                  <div class='sec-2_box2_body'>");
+        $res_departT = mysqli_query($cnt, "SELECT type.libelleType,MIN(tarif.tarif) FROM tarif,type WHERE tarif.idLiaison='$idDepart-$id' AND tarif.idType=type.idType AND type.idCategorie!='A' GROUP BY tarif.idType;");
         if (mysqli_num_rows($res_departT) > 0) {
-          while ($tab = mysqli_fetch_row($res_departT)) { // Boucle des tarifs/type
-            $libelleT = $tab[0]; // Variable type tari
-            $tarif = $tab[1]; // Variable prix tarif
+          while ($tab = mysqli_fetch_row($res_departT)) {
+            $libelleT = $tab[0];
+            $tarif = $tab[1];
 
             echo ("
-                            <div class='sec-2_box2_body_info1'>
-                              <div class='sec-2_box2_body_info1_cnt'>
-                                <div class='sec-2_box2_body_info1_vehicule'>$libelleT</div>
-                                <div class='sec-2_box2_body_info1_prix'>$tarif €</div>
-                              </div>
-                            </div>
-                            <div class=\"sec-2_box2_barre\"></div>");
+                    <div class='sec-2_box2_body_info1'>
+                      <div class='sec-2_box2_body_info1_cnt'>
+                        <div class='sec-2_box2_body_info1_vehicule'>$libelleT</div>
+                        <div class='sec-2_box2_body_info1_prix'>$tarif €</div>
+                      </div>
+                    </div>
+                    <div class=\"sec-2_box2_barre\"></div>");
           };
         } else {
           echo ("
-                          <div class='sec-2_box2_body_info1'>
-                              <p>Aucun billet n'est disponible pour ce départ.</p>
-                          </div>");
+                  <div class='sec-2_box2_body_info1'>
+                    <p>Aucun billet n'est disponible pour ce départ.</p>
+                  </div>");
         }
         echo ("
-                    </div>
                   </div>
                 </div>
               </div>
-          "); // Affichage liste accordéon ville
-        //<div id=\"accordion-open-body-$n\" class=\"hidden\" aria-labelledby=\"accordion-open-heading-$n\">
-        //    <div class=\"p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900\">"
+            </div>
+          </div>");
         $n++;
       }
       ?>
-      <!--<h2 id="accordion-open-heading-2">
-        <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-open-body-2" aria-expanded="false" aria-controls="accordion-open-body-2">
-          <span class="flex items-center"><svg class="w-5 h-5 me-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>Is there a Figma file available?</span>
-          <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-          </svg>
-        </button>
-      </h2>
-      <div id="accordion-open-body-2" class="hidden" aria-labelledby="accordion-open-heading-2">
-        <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
-          <p class="mb-2 text-gray-500 dark:text-gray-400">Flowbite is first conceptualized and designed using the Figma software so everything you see in the library has a design equivalent in our Figma file.</p>
-          <p class="text-gray-500 dark:text-gray-400">Check out the <a href="https://flowbite.com/figma/" class="text-blue-600 dark:text-blue-500 hover:underline">Figma design system</a> based on the utility classes from Tailwind CSS and components from Flowbite.</p>
-        </div>
-      </div>-->
     </div>
   </section>
 
