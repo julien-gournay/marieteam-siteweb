@@ -1,6 +1,6 @@
 /* ----- Configuration sections page ----- */
 section {
-  min-height: 100vh;
+  /*min-height: 100vh;*/
   width: 100%;
   display: flex;
 }
@@ -10,10 +10,12 @@ section {
   color: var(--noir);
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
 }
 #sec-2 {
-  width: 90vw;
-  padding: 4.75rem 8%;
+  width: 100%;
+  height: auto;
+  padding: 2rem 6%;
   display: flex;
   gap: 2rem;
   flex-direction: column;
@@ -24,6 +26,7 @@ section {
   color: var(--white);
   justify-content: center;
   align-items: center;
+  height: auto;
 }
 
 /* ==== sec-1 ==== */

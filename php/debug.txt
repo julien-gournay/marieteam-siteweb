@@ -1,4 +1,4 @@
-Script appelé
+cript appelé
 Ville départ reçue: CAL
 Script appelé
 Ville départ reçue: DOU
@@ -22,3 +22,5 @@ Script appelé
 Ville départ reçue: CAL
 Script appelé
 Ville départ reçue: NEW
+Script appelé
+Ville départ reçue: CAL

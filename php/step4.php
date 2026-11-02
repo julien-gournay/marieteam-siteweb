@@ -117,8 +117,8 @@
 
 
             if($mabase){
-                $res_resa = mysqli_query($cnt,"SELECT trajet.dateDepart,trajet.heureDepart,trajet.dateArrivee,trajet.heureArrivee,port.ville,port.pays,port.photo FROM reservation,trajet,liaison,port WHERE reservation.reference='$idReservation' AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
-                $res_resa2 = mysqli_query($cnt,"SELECT port.ville,port.pays FROM reservation,trajet,liaison,port WHERE reservation.reference='$idReservation' AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleDepart=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
+                $res_resa = mysqli_query($cnt,"SELECT trajet.dateDepart,trajet.heureDepart,trajet.dateArrivee,trajet.heureArrivee,port.ville,port.idPays,port.photo FROM reservation,trajet,liaison,port WHERE reservation.reference='$idReservation' AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleArrivee=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
+                $res_resa2 = mysqli_query($cnt,"SELECT port.ville,port.idPays FROM reservation,trajet,liaison,port WHERE reservation.reference='$idReservation' AND reservation.idTrajet=trajet.idTrajet AND trajet.idLiaison=liaison.idLiai AND liaison.idvilleDepart=port.idVille;"); // Requête : Récupere toute les informations d'une réservation
             }
             while ($tab = mysqli_fetch_row($res_resa)) { // Récupération des infos
                 $dateDepart = $tab[0]; // Variable Date depart selectionnée

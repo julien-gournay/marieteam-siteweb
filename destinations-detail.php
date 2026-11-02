@@ -25,15 +25,20 @@
     }
 
     $id = mysqli_real_escape_string($cnt, $id); // Verification que l'ID est correctement échappé pour éviter les injections SQL
-    $res_dest_detail = mysqli_query($cnt, "SELECT * FROM port WHERE idVille='$id'"); // Requête récupération informations sur la destination
+    //$res_dest_detail = mysqli_query($cnt, "SELECT port.*, pays.nomPays, pays.langue,COUNT(recommandation.idRecommandation) FROM port,pays, recommandation WHERE port.idVille='$id' AND port.idPays=pays.idPays AND pays.idPays=recommandation.idPays;"); // Requête récupération informations sur la destination
+    $res_dest_detail = mysqli_query($cnt, "SELECT port.*, pays.nomPays, pays.langue FROM port,pays WHERE port.idVille='$id' AND port.idPays=pays.idPays"); // Requête récupération informations sur la destination
+
 
     if ($res_dest_detail) { // Verification que la requete n'est pass vide
       while ($tab = mysqli_fetch_row($res_dest_detail)) { // Récuperation info destination/port
         $id = $tab[0]; // Variable id port
         $ville = $tab[1]; // Variable nom ville
-        $pays = $tab[2];  // Variable localisation port
+        $idPays = $tab[2];  // Variable localisation port
         $photo = $tab[3]; // Variable photo ville
-        $desc = $tab[4];  // Variable description ville
+        $descVille = $tab[4];  // Variable description ville
+        $nomPays = $tab[5];
+        $langue = $tab[6];
+        //$nbRecom = $tab[7];
 
         if ($id != NULL) { // Si l'id destination n'est pas vide, alors ...
           echo ("
@@ -42,9 +47,10 @@
             <div class='cadre2'>
               <div class='cadre2-content'>
                 <div class='cadre2-content-txt'>
-                  <h3 class='cadre2-sous-titre'>Destination $pays</h3>
+                  <h3 class='cadre2-sous-titre'>Destination $nomPays</h3>
                   <h1 class='cadre2-titre'>$ville</h1><br>
-                  <p class='cadre2-sous-description'>$desc</p>
+                  <p class='cadre2-sous-description'><u>Langue principale :</u> $langue</p>
+                  <p class='cadre2-sous-description'>$descVille</p>
                 </div>
               </div>
             </div>
@@ -60,9 +66,29 @@
     ?>
   </section>
 
+  <?php
+  $res_recom = mysqli_query($cnt, "SELECT description,date FROM recommandation WHERE recommandation.idPays=$idPays;");
+  if (mysqli_fetch_row($res_recom)) {
+        echo("<section id=\"sec-2\" class=\"flex flex-col\">
+          <div class=\"flex items-center p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800\" role=\"alert\">
+              <svg class=\"shrink-0 inline w-4 h-4 me-3\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 20 20\">
+                  <path d=\"M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z\"/>
+              </svg>
+              <span class=\"sr-only\">Recommandation du ministère des affaires étrangères :</span>
+              <div>
+                  <h2 class=\"mb-4 text-xl font-extrabold leading-none\">Recommandation du ministère des affaires étrangères</h2>");
 
+              $res_recom2 = mysqli_query($cnt, "SELECT description,date FROM recommandation WHERE recommandation.idPays=$idPays;");
 
-  </section>
+              while ($tab = mysqli_fetch_row($res_recom2)) {
+                            $recommandation = $tab[0];
+                            $dateRecommandation = $tab[1];
+
+                            echo("<p class=\"font - medium\">→ $recommandation ($dateRecommandation)</p>");
+                        }
+                echo("</div></section>");
+    }
+  ?>
 
   <!-- ##### SECTION TARIFS DEPART  ##### -->
   <section id="sec-3" class="flex flex-col">

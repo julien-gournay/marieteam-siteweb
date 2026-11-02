@@ -61,7 +61,7 @@
       </div>
       <div class="sec-2-box-liste">
         <?php
-        $resFR = mysqli_query($cnt, "SELECT * FROM port WHERE pays=\"France\"");
+        $resFR = mysqli_query($cnt, "SELECT * FROM port WHERE idPays=1");
         while ($tab = mysqli_fetch_row($resFR)) {
           $id = $tab[0];
           $ville = $tab[1];
@@ -93,7 +93,7 @@
       </div>
       <div class="sec-2-box-liste">
         <?php
-        $resRU = mysqli_query($cnt, "SELECT * FROM port WHERE pays=\"Royaume Uni\"");
+        $resRU = mysqli_query($cnt, "SELECT * FROM port WHERE idPays=4");
         while ($tab = mysqli_fetch_row($resRU)) {
           $id = $tab[0];
           $ville = $tab[1];
@@ -126,7 +126,7 @@
       </div>
       <div class="sec-2-box-liste">
         <?php
-        $resES = mysqli_query($cnt, "SELECT * FROM port WHERE pays=\"Espagne\"");
+        $resES = mysqli_query($cnt, "SELECT * FROM port WHERE idPays=2");
         while ($tab = mysqli_fetch_row($resES)) {
           $id = $tab[0];
           $ville = $tab[1];
@@ -158,7 +158,7 @@
       </div>
       <div class="sec-2-box-liste">
         <?php
-        $resIR = mysqli_query($cnt, "SELECT * FROM port WHERE pays=\"Irlande\"");
+        $resIR = mysqli_query($cnt, "SELECT * FROM port WHERE idPays=3");
         while ($tab = mysqli_fetch_row($resIR)) {
           $id = $tab[0];
           $ville = $tab[1];
